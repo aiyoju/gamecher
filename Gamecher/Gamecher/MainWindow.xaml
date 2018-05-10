@@ -1,0 +1,158 @@
+﻿<Window x:Class="Gamecher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gamecher"
+        mc:Ignorable="d"
+        Title="Gamecher" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Column="3" Grid.Row="3">
+            <WrapPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Bueno dia"/>
+                    <TextBox Text="Algo de texto"/>
+                </StackPanel>
+            </WrapPanel>
+        </ScrollViewer>
+
+    </Grid>
+
+</Window>
