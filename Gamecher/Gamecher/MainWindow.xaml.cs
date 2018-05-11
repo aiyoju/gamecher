@@ -30,7 +30,7 @@ namespace Gamecher
             {
                 lol = new TextBlock
                 {
-                    Text = "Pene"
+                    Text = "PenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePenePene"
                 };
                 wrapMahepanel.Children.Add(lol);
                 i++;
@@ -84,7 +84,7 @@ namespace Gamecher
         {
             if (this.WindowState == WindowState.Maximized)
             {
-                this.ResizeMode = ResizeMode.CanResizeWithGrip;
+                this.ResizeMode = ResizeMode.CanResize;
                 this.WindowState = WindowState.Normal;
             }
             else
