@@ -24,7 +24,7 @@ namespace Gamecher
         public MainWindow()
         {
             InitializeComponent();
-            int i = 0;
+            /*int i = 0;
             TextBlock lol;
             while (i < 90)
             {
@@ -34,7 +34,7 @@ namespace Gamecher
                 };
                 wrapMahepanel.Children.Add(lol);
                 i++;
-            }
+            }*/
         }
 
         /// <summary>

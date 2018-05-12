@@ -7,10 +7,11 @@
         Background="#00000000"
         AllowsTransparency="True"
         ResizeMode="CanResize"
+        FontFamily="Calibri"
         WindowStyle="None"
         ShowInTaskbar="True" 
         WindowStartupLocation="CenterScreen"
-        Title="Gamecher" Height="450" Width="800" MinWidth="600" MinHeight="350">
+        Title="Gamecher" Height="720" Width="1240" MinWidth="600" MinHeight="350">
     <!--Background="#ff202225"-->
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" UseAeroCaptionButtons="False"/>
@@ -93,17 +94,17 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <TextBlock HorizontalAlignment="Left" IsHitTestVisible="False" Foreground="#FFF0F0F0" FontWeight="Bold" FontSize="14" Margin="15,0,0,0" VerticalAlignment="Center">Gamecher</TextBlock>
+                <TextBlock HorizontalAlignment="Left" IsHitTestVisible="False" Foreground="#FFF0F0F0" FontWeight="Bold" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center">Gamecher</TextBlock>
             </DockPanel>
         </DockPanel>
 
         <Grid Background="#2F3136" Grid.Column="0" Grid.Row="1" Panel.ZIndex="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="75"/>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.Effect>
@@ -112,37 +113,56 @@
 
             <Grid Grid.Column="0" Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40*"/>
-                    <ColumnDefinition Width="60*"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-            </Grid>
-
-            <Grid Grid.Column="0" Grid.Row="1 ">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="15*"/>
-                    <ColumnDefinition Width="35*"/>
-                    <ColumnDefinition Width="15*"/>
-                    <ColumnDefinition Width="35*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="45"/>
                 </Grid.RowDefinitions>
 
-                <Separator Width="Auto" Background="#494B4F" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2" Margin="15, 0, 15, 0" />
 
+                <Image Source="C:\Users\aiyoj\Pictures\lol.jpg" Grid.RowSpan="2" RenderOptions.BitmapScalingMode="Fant" Width="70" Height="70">
+                    <Image.Clip>
+                        <EllipseGeometry
+                                    Center="35,35"
+                                    RadiusX="35"
+                                    RadiusY="35" />
+                    </Image.Clip>
+                </Image> 
+
+                <Image Source="C:\Users\aiyoj\Pictures\clock_icon.png" Grid.Column="1" Grid.Row="0" RenderOptions.BitmapScalingMode="Fant" Width="25" Height="25"/>
+                <Viewbox Margin="0,12,10,12" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left">
+                    <TextBlock Foreground="#696B6E" TextWrapping="Wrap" Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                        2045h
+                    </TextBlock>
+                </Viewbox>
+
+                <Image Source="C:\Users\aiyoj\Pictures\trophies.png" Grid.Column="1" Grid.Row="1" RenderOptions.BitmapScalingMode="Fant" Width="30" Height="30"/>
+                <Viewbox Margin="0,12,10,12" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left">
+                    <TextBlock Foreground="#696B6E" TextWrapping="Wrap" Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                        3657
+                    </TextBlock>
+                </Viewbox>
+ 
             </Grid>
+
+            <Viewbox Margin="15,0,15,0" Grid.Column="0" Grid.Row="1">
+                <TextBlock Foreground="#FFFFF8F8" TextWrapping="Wrap" Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
+                                        KillerMuffin69
+                </TextBlock>
+            </Viewbox>
+
+            <Separator Width="Auto" Background="#494B4F" Grid.Column="0" Grid.Row="1" Margin="15, 0, 15, 0" VerticalAlignment="Bottom"/>
+
 
             <ScrollViewer Grid.Column="0" Grid.Row="3" VerticalScrollBarVisibility="Visible">
                 <StackPanel Orientation="Vertical">
                     <Button>
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Grid Width="Auto" Height="50">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80*"/>
                                         <ColumnDefinition Width="20*"/>
@@ -150,14 +170,511 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Margin="15, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FF4D4F54">
-                                        Favoritos
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        All games
                                     </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        76 
+                                        </TextBlock>
+                                    </Border>
                                     <Grid.Style>
                                         <Style TargetType="Grid">
                                             <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
                                             <Style.Triggers>
                                                 <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
+                                                    <Setter Property="Background" Value="#42464D"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid Width="Auto" Height="50" Margin="5,5,5,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80*"/>
+                                        <ColumnDefinition Width="20*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="5, 0, 0, 0" Grid.Column="0" Grid.Row="0" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold">
+                                        Favoritos
+                                    </TextBlock>
+                                    <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
+                                        15
+                                        </TextBlock>
+                                    </Border>
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="TextBlock.Foreground" Value="#696B6E"/>
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property="TextBlock.Foreground" Value="#FFFFF8F8"/>
                                                     <Setter Property="Background" Value="#42464D"/>
                                                 </Trigger>
                                             </Style.Triggers>
@@ -171,11 +688,67 @@
             </ScrollViewer>
         </Grid>
         <ScrollViewer Grid.Column="1" Grid.Row="1" Panel.ZIndex="0" VerticalScrollBarVisibility="Visible">
-            <WrapPanel x:Name="wrapMahepanel" Orientation="Horizontal">
-                <StackPanel Orientation="Vertical">
+            <WrapPanel Margin="20,20,0,0" x:Name="wrapMahepanel" Orientation="Horizontal">
+                <!--<StackPanel Orientation="Vertical">
                     <Button Content="Bueno dia"/>
                     <TextBox Text="Algo de texto"/>
-                </StackPanel>
+                </StackPanel>-->
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
+                <Rectangle Margin="0,00,20,20" Fill="SlateGray" Width="175" Height="100" RadiusY="2.5" RadiusX="2.5"/>
             </WrapPanel>
         </ScrollViewer>
     </Grid>
