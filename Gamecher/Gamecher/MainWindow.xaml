@@ -11,7 +11,7 @@
         WindowStyle="None"
         ShowInTaskbar="True" 
         WindowStartupLocation="CenterScreen"
-        Title="Gamecher" Height="720" Width="1240" MinWidth="600" MinHeight="350">
+        Title="Gamecher" Height="720" Width="1280" MinWidth="580" MinHeight="350">
     <!--Background="#ff202225"-->
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" UseAeroCaptionButtons="False"/>
@@ -241,67 +241,105 @@
                     <Button Content="Bueno dia"/>
                     <TextBox Text="Algo de texto"/>
                 </StackPanel>-->
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-                <Rectangle
-                           Margin="0,0,15,15" 
-                           Fill="SlateGray" 
-                           RadiusY="2.5"
-                           RadiusX="2.5"/>
-
+                <Grid Margin="0,0,15,15">
+                    <Image Source="C:\Users\aiyoj\Pictures\csgoimg.jpg" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="Fant"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25*" />
+                            <RowDefinition Height="50*" />
+                            <RowDefinition Height="25*" />
+                        </Grid.RowDefinitions>
+                        <Viewbox Margin="5,0,5,0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0">
+                            <TextBlock Foreground="White" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center">
+                                        Counter Strike: Global Offensive
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Opacity" Value="0.6"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Opacity" Value="1"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Viewbox>
+                        <Polygon Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Points="0,0 24,15, 0,30" Fill="White">
+                            <Polygon.Style>
+                                <Style TargetType="Polygon">
+                                    <Setter Property="Opacity" Value="0.6"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="1"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Polygon.Style>
+                        </Polygon>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1.2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="C:\Users\aiyoj\Pictures\star_white.png" RenderOptions.BitmapScalingMode="Fant" Width="20" Height="20">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Opacity" Value="0.6"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Opacity" Value="1"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                            <Image Grid.Column="2" Source="C:\Users\aiyoj\Pictures\clock_icon_white.png" RenderOptions.BitmapScalingMode="Fant" Width="20" Height="20" Opacity="0.6"/>
+                            <Viewbox Grid.Column="3" Margin="3,3,0,3" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <TextBlock Foreground="White" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center">
+                                        59
+                                </TextBlock>
+                            </Viewbox>
+                            <Image Grid.Column="4" Source="C:\Users\aiyoj\Pictures\trophies_white.png" RenderOptions.BitmapScalingMode="Fant" Width="20" Height="20" Opacity="0.6"/>
+                            <Viewbox Grid.Column="5" Margin="0,3,0,3" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                <TextBlock Foreground="White" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center">
+                                        15
+                                </TextBlock>
+                            </Viewbox>
+                            <Image Grid.Column="6" Source="C:\Users\aiyoj\Pictures\settings_white.png" RenderOptions.BitmapScalingMode="Fant" Width="20" Height="20">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Opacity" Value="0.6"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Opacity" Value="1"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </Grid>
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Opacity" Value="0"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#99000000"/>
+                                        <Setter Property="Opacity" Value="10"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                    </Grid>
+                </Grid>
             </WrapPanel>
         </ScrollViewer>
     </Grid>
