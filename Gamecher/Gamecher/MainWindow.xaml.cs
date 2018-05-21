@@ -96,5 +96,10 @@ namespace Gamecher
 
         }
 
+        private void UserAvatarClick(object sender, MouseButtonEventArgs e)
+        {
+            var userSettings = new UserSettings();
+            userSettings.ShowDialog();
+        }
     }
 }

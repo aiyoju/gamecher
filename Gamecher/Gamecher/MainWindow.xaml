@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gamecher"
-        Background="#00000000"
         AllowsTransparency="True"
         ResizeMode="CanResize"
         FontFamily="Calibri"
@@ -123,7 +122,7 @@
                 </Grid.RowDefinitions>
 
 
-                <Image Source="C:\Users\aiyoj\Pictures\lol.jpg" Grid.RowSpan="2" RenderOptions.BitmapScalingMode="Fant" Width="70" Height="70">
+                <Image Source="C:\Users\aiyoj\Pictures\lol.jpg" Grid.RowSpan="2" RenderOptions.BitmapScalingMode="Fant" Width="70" Height="70" MouseUp="UserAvatarClick">
                     <Image.Clip>
                         <EllipseGeometry
                                     Center="35,35"
@@ -174,6 +173,9 @@
                                         All games
                                     </TextBlock>
                                     <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <Border.Effect>
+                                            <DropShadowEffect BlurRadius="10" RenderingBias="Performance" ShadowDepth="2" Opacity="0.1"/>
+                                        </Border.Effect>
                                         <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
                                         76
                                         </TextBlock>
@@ -209,6 +211,9 @@
                                         Favoritos
                                     </TextBlock>
                                     <Border Margin="0, 0, 5, 0" Grid.Column="1" Grid.Row="0" BorderThickness="0,5" Background="#FFF04747" CornerRadius="5">
+                                        <Border.Effect>
+                                            <DropShadowEffect BlurRadius="10" RenderingBias="Performance" ShadowDepth="2" Opacity="0.1"/>
+                                        </Border.Effect>
                                         <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
                                         15
                                         </TextBlock>
@@ -235,7 +240,7 @@
         <ScrollViewer Grid.Column="1" Grid.Row="1" Panel.ZIndex="0" VerticalScrollBarVisibility="Visible">
             <WrapPanel Margin="20,20,0,0" x:Name="wrapMahepanel" Orientation="Horizontal" ItemHeight="100" ItemWidth="175" >
                 <WrapPanel.Effect>
-                    <DropShadowEffect BlurRadius="10" RenderingBias="Performance" ShadowDepth="3" Color="#FF63666A"/>
+                    <DropShadowEffect BlurRadius="10" RenderingBias="Performance" ShadowDepth="2" Opacity="0.25"/>
                 </WrapPanel.Effect>
                 <!--<StackPanel Orientation="Vertical">
                     <Button Content="Bueno dia"/>
@@ -342,5 +347,14 @@
                 </Grid>
             </WrapPanel>
         </ScrollViewer>
+
+        <Border VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0, 0, 20, 20" Width="70" Height="70" Grid.Column="1" Grid.Row="1" BorderThickness="0" Background="#FF737373" CornerRadius="100">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" RenderingBias="Performance" ShadowDepth="2" Opacity="0.25"/>
+            </Border.Effect>
+            <TextBlock TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri Light" FontSize="60" Foreground="#FFFFF8F8" Margin="0,0,0,7 ">
+                +
+            </TextBlock>
+        </Border>
     </Grid>
 </Window>
