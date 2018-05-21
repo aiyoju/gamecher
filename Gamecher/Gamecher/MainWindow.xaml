@@ -245,7 +245,7 @@
             </WrapPanel>
         </ScrollViewer>
 
-        <Border VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0, 0, 20, 20" Width="70" Height="70" Grid.Column="1" Grid.Row="1" BorderThickness="0" Background="#FF737373" CornerRadius="100" MouseUp="AddGameClicked">
+        <Border x:Name="AddGameButton" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0, 0, 20, 20" Width="70" Height="70" Grid.Column="1" Grid.Row="1" BorderThickness="0" Background="#FF737373" CornerRadius="100" MouseUp="AddGameClicked">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" RenderingBias="Performance" ShadowDepth="2" Opacity="0.25"/>
             </Border.Effect>
