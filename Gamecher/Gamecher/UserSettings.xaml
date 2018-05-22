@@ -65,7 +65,7 @@
 
             </Rectangle>
 
-            <Image Grid.Row="1" Source="C:\Users\aiyoj\Pictures\lol.jpg" Margin="0,0,275,0" RenderOptions.BitmapScalingMode="Fant" Width="200" Height="200">
+            <Image Grid.Row="1" Source="D:\lol.jpg" Margin="0,0,275,0" RenderOptions.BitmapScalingMode="Fant" Width="200" Height="200">
                 <Image.Clip>
                     <EllipseGeometry
                                     Center="100,100"
@@ -91,7 +91,11 @@
                                         Username
                 </TextBlock>
 
-                <Image Grid.Row="0" HorizontalAlignment="Right" Source="C:\Users\aiyoj\Pictures\edit_icon.png" RenderOptions.BitmapScalingMode="Fant" Width="25" Height="25" Margin="0,0,10,0" />
+                <Image Grid.Row="0" HorizontalAlignment="Right" RenderOptions.BitmapScalingMode="Fant" Width="25" Height="25" Margin="0,0,10,0">
+                    <Image.Source>
+                        <BitmapImage UriSource="images\edit_icon.png"/>
+                    </Image.Source>
+                </Image>
 
                 <Viewbox  Grid.Row="1" Margin="15,0,5,0" HorizontalAlignment="Left">
                     <TextBlock Foreground="#FFFFF8F8" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontSize="22" FontFamily="Calibri Light">
@@ -103,7 +107,11 @@
                                         Password
                 </TextBlock>
 
-                <Image Grid.Row="2" HorizontalAlignment="Right" Source="C:\Users\aiyoj\Pictures\edit_icon.png" RenderOptions.BitmapScalingMode="Fant" Width="25" Height="25" Margin="0,0,10,0"/>
+                <Image Grid.Row="2" HorizontalAlignment="Right" RenderOptions.BitmapScalingMode="Fant" Width="25" Height="25" Margin="0,0,10,0">
+                    <Image.Source>
+                        <BitmapImage UriSource="images\edit_icon.png"/>
+                    </Image.Source>
+                </Image>
 
                 <TextBlock Grid.Row="3" Foreground="#FFFFF8F8" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontSize="22" Margin="15,0,0,0" FontFamily="Calibri Light">
                                         ●●●●●
@@ -113,7 +121,11 @@
                                         E-mail
                 </TextBlock>
 
-                <Image Grid.Row="4" HorizontalAlignment="Right" Source="C:\Users\aiyoj\Pictures\edit_icon.png" RenderOptions.BitmapScalingMode="Fant" Width="25" Height="25" Margin="0,0,10,0"/>
+                <Image Grid.Row="4" HorizontalAlignment="Right" RenderOptions.BitmapScalingMode="Fant" Width="25" Height="25" Margin="0,0,10,0">
+                    <Image.Source>
+                        <BitmapImage UriSource="images\edit_icon.png"/>
+                    </Image.Source>
+                </Image>
 
                 <Viewbox  Grid.Row="5" Margin="15,0,5,0" HorizontalAlignment="Left">
                     <TextBlock Foreground="#FFFFF8F8" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontSize="22" FontFamily="Calibri Light">

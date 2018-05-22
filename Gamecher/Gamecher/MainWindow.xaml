@@ -122,7 +122,7 @@
                 </Grid.RowDefinitions>
 
 
-                <Image Source="C:\Users\aiyoj\Pictures\lol.jpg" Grid.RowSpan="2" RenderOptions.BitmapScalingMode="Fant" Width="70" Height="70" MouseUp="UserAvatarClick">
+                <Image Source="D:\lol.jpg" Grid.RowSpan="2" RenderOptions.BitmapScalingMode="Fant" Width="70" Height="70" MouseUp="UserAvatarClick">
                     <Image.Clip>
                         <EllipseGeometry
                                     Center="35,35"
@@ -131,14 +131,23 @@
                     </Image.Clip>
                 </Image>
 
-                <Image Source="C:\Users\aiyoj\Pictures\clock_icon.png" Grid.Column="1" Grid.Row="0" RenderOptions.BitmapScalingMode="Fant" Width="25" Height="25"/>
+                <Image Grid.Column="1" Grid.Row="0" RenderOptions.BitmapScalingMode="Fant" Width="25" Height="25">
+                    <Image.Source>
+                        <BitmapImage  UriSource="images/clock_icon.png" />
+                    </Image.Source>
+                </Image>
                 <Viewbox Margin="0,12,10,12" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left">
                     <TextBlock Foreground="#696B6E" TextWrapping="Wrap" Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
                                         2045h
                     </TextBlock>
                 </Viewbox>
 
-                <Image Source="C:\Users\aiyoj\Pictures\trophies.png" Grid.Column="1" Grid.Row="1" RenderOptions.BitmapScalingMode="Fant" Width="30" Height="30"/>
+                <Image Grid.Column="1" Grid.Row="1" RenderOptions.BitmapScalingMode="Fant" Width="30" Height="30">
+                    <Image.Source>
+                        <BitmapImage  UriSource="images/trophies.png" />
+                    </Image.Source>
+                </Image>
+                
                 <Viewbox Margin="0,12,10,12" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left">
                     <TextBlock Foreground="#696B6E" TextWrapping="Wrap" Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold">
                                         3657

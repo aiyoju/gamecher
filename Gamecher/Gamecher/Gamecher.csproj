@@ -133,5 +133,22 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\battlenet_icon.png" />
+    <Resource Include="Images\clock_icon.png" />
+    <Resource Include="Images\clock_icon_white.png" />
+    <Resource Include="Images\edit_icon.png" />
+    <Resource Include="Images\folder_icon.png" />
+    <Resource Include="Images\lol.jpg" />
+    <Resource Include="Images\origin_icon.png" />
+    <Resource Include="Images\search_icon.png" />
+    <Resource Include="Images\settings_white.png" />
+    <Resource Include="Images\star_white.png" />
+    <Resource Include="Images\steam_icon - copia.png" />
+    <Resource Include="Images\steam_icon.png" />
+    <Resource Include="Images\trophies.png" />
+    <Resource Include="Images\trophies_white.png" />
+    <Resource Include="Images\uplay_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

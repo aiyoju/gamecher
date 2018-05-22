@@ -73,10 +73,26 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Image Grid.Column="0" Grid.Row="0" Margin="5" Source="C:\Users\aiyoj\Pictures\steam_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
-                <Image Grid.Column="1" Grid.Row="0" Margin="5" Source="C:\Users\aiyoj\Pictures\battlenet_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
-                <Image Grid.Column="0" Grid.Row="1" Margin="5" Source="C:\Users\aiyoj\Pictures\origin_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
-                <Image Grid.Column="1" Grid.Row="1" Margin="5" Source="C:\Users\aiyoj\Pictures\uplay_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+                <Image Grid.Column="0" Grid.Row="0" Margin="5" RenderOptions.BitmapScalingMode="Fant">
+                    <Image.Source>
+                        <BitmapImage  UriSource="images/steam_icon.png" />
+                    </Image.Source>
+                </Image>
+                <Image Grid.Column="1" Grid.Row="0" Margin="5" RenderOptions.BitmapScalingMode="Fant">
+                <Image.Source>
+                        <BitmapImage  UriSource="images/battlenet_icon.png" />
+                </Image.Source>
+                </Image>
+                <Image Grid.Column="0" Grid.Row="1" Margin="5" RenderOptions.BitmapScalingMode="Fant">
+                <Image.Source>
+                    <BitmapImage  UriSource="images/origin_icon.png" />
+                </Image.Source>
+                </Image>
+                <Image Grid.Column="1" Grid.Row="1" Margin="5" RenderOptions.BitmapScalingMode="Fant">
+                    <Image.Source>
+                        <BitmapImage  UriSource="images/uplay_icon.png" />
+                    </Image.Source>
+                </Image>
 
             </Grid>
 
@@ -87,13 +103,21 @@
                                         Just click the button and we will add them automatically, more support to come!</TextBlock>
 
             <Border HorizontalAlignment="Right" VerticalAlignment="Center" Padding="15,10,15,10" Grid.Row="1" BorderThickness="0,5" Background="#FF7289DA" CornerRadius="5" Margin="0,0,55,0" MouseUp="SearchForGamesAuto">
-                <Image Width="40" Height="40" Source="C:\Users\aiyoj\Pictures\search_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+                <Image Width="40" Height="40" RenderOptions.BitmapScalingMode="Fant">
+                    <Image.Source>
+                        <BitmapImage  UriSource="images/search_icon.png" />
+                    </Image.Source>
+                </Image>
             </Border>
 
             <Rectangle Fill="#2F3136" Grid.Row="2" Margin="15,15,15,15" RadiusY="14.667" RadiusX="14.667">
             </Rectangle>
 
-            <Image Grid.Row="2" Margin="40,40,0,40" HorizontalAlignment="Left" Source="C:\Users\aiyoj\Pictures\folder_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+            <Image Grid.Row="2" Margin="40,40,0,40" HorizontalAlignment="Left" RenderOptions.BitmapScalingMode="Fant">
+                <Image.Source>
+                    <BitmapImage  UriSource="images/folder_icon.png" />
+                </Image.Source>
+            </Image>
 
             <TextBlock Margin="200,30,165,0" Grid.Row="2" Foreground="#FFFFF8F8" TextWrapping="WrapWithOverflow" Opacity="1" TextAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="18">
                                         Couldn't our algorithm find your games? Add them manually!</TextBlock>
@@ -102,7 +126,11 @@
                                         Simply press the button and search them on your PC. We will do the rest!</TextBlock>
 
             <Border HorizontalAlignment="Right" VerticalAlignment="Center" Padding="15,10,15,10" Grid.Row="2" BorderThickness="0,5" Background="IndianRed" CornerRadius="5" Margin="0,0,55,0" MouseUp="SearchForGamesManual">
-                <Image Width="40" Height="40" Source="C:\Users\aiyoj\Pictures\search_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+                <Image Width="40" Height="40" RenderOptions.BitmapScalingMode="Fant">
+                    <Image.Source>
+                        <BitmapImage  UriSource="images/search_icon.png" />
+                    </Image.Source>
+                </Image>
             </Border>
 
         </Grid>

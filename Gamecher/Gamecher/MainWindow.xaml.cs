@@ -318,7 +318,15 @@ namespace Gamecher
 
         private void UserAvatarClick(object sender, MouseButtonEventArgs e)
         {
-            var userSettings = new UserSettings();
+            this.Opacity = 0.9;
+            this.Effect = new BlurEffect();
+
+            var userSettings = new UserSettings()
+            {
+                Owner = this,
+                ShowInTaskbar = false
+            };
+
             userSettings.ShowDialog();
         }
 
@@ -331,13 +339,13 @@ namespace Gamecher
             this.Opacity = 0.9;
             this.Effect = new BlurEffect();
             
-            var GameAdder = new GameAdder()
+            var gameAdder = new GameAdder()
             {
                 Owner = this,
                 ShowInTaskbar = false
             };
             
-            GameAdder.ShowDialog();
+            gameAdder.ShowDialog();
 
             
         }
