@@ -35,6 +35,8 @@ namespace Gamecher
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.MainWindow.Effect = null;
+            Application.Current.MainWindow.Opacity = 1;
             Close();
         }
 
@@ -52,12 +54,16 @@ namespace Gamecher
 
         private void DeclinePressed(object sender, MouseButtonEventArgs e)
         {
+            Application.Current.MainWindow.Effect = null;
+            Application.Current.MainWindow.Opacity = 1;
             Close();
         }
 
         private void AcceptPressed(object sender, MouseButtonEventArgs e)
         {
             //DoShitHereBeforeClosing
+            Application.Current.MainWindow.Effect = null;
+            Application.Current.MainWindow.Opacity = 1;
             Close();
         }
     }
