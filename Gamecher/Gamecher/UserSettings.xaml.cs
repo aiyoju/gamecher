@@ -27,7 +27,10 @@ namespace Gamecher
 
         private void WindowTopBarClicked(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                DragMove();
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

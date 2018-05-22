@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Effects;
 
 namespace Gamecher
 {
@@ -102,7 +103,7 @@ namespace Gamecher
             }
 
 
-            /*string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
+            string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key))
             {
                 foreach (string subkey_name in key.GetSubKeyNames())
@@ -123,7 +124,7 @@ namespace Gamecher
                         }
                     }
                 }
-            }*/
+            }
 
             //List<String> prueba = Search("D:/", ".txt", SearchOption.AllDirectories);
             //prueba.ForEach(i => Console.WriteLine(i));
@@ -217,9 +218,22 @@ namespace Gamecher
 
         private void AddGameClicked(object sender, MouseButtonEventArgs e)
         {
-            GameCard gC = new GameCard();
+            /*GameCard gC = new GameCard();
             gC.PlayButton.MouseUp += AddGameClicked;
-            wrapMahepanel.Children.Add(gC);
+            wrapMahepanel.Children.Add(gC);*/
+            
+            this.Opacity = 0.9;
+            this.Effect = new BlurEffect();
+            
+            var GameAdder = new GameAdder()
+            {
+                Owner = this,
+                ShowInTaskbar = false
+            };
+            
+            GameAdder.ShowDialog();
+
+            
         }
     }
 }

@@ -23,7 +23,6 @@
         <Grid Background="#36393E">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="21"/>
@@ -66,7 +65,7 @@
 
             </Rectangle>
 
-            <Image Grid.Row="1" Source="C:\Users\aiyoj\Pictures\lol.jpg" RenderOptions.BitmapScalingMode="Fant" Width="200" Height="200">
+            <Image Grid.Row="1" Source="C:\Users\aiyoj\Pictures\lol.jpg" Margin="0,0,275,0" RenderOptions.BitmapScalingMode="Fant" Width="200" Height="200">
                 <Image.Clip>
                     <EllipseGeometry
                                     Center="100,100"
@@ -122,7 +121,7 @@
                     </TextBlock>
                 </Viewbox>
             </Grid>
-            <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="95,10,95,20">
+            <Grid Grid.Column="0" Grid.Row="2" Margin="95,10,95,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto" />

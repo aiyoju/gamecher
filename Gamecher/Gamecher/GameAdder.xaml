@@ -1,0 +1,110 @@
+﻿<Window x:Class="Gamecher.GameAdder"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gamecher"
+        mc:Ignorable="d"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        FontFamily="Calibri"
+        WindowStyle="None"
+        ShowInTaskbar="True" 
+        WindowStartupLocation="CenterScreen"
+        Title="UserSettings" Height="421" Width="580">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+    <Border Margin="10" BorderThickness="0" BorderBrush="Black">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="10" RenderingBias="Performance" ShadowDepth="0" Opacity="0.5"/>
+        </Border.Effect>
+        <Grid Background="#36393E">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="21"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Rectangle Fill="#202225" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" MouseDown="WindowTopBarClicked">
+                <Rectangle.Effect>
+                    <DropShadowEffect BlurRadius="10" Direction="270" RenderingBias="Performance" ShadowDepth="0"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Panel.ZIndex="2">
+                <DockPanel DockPanel.Dock="Top" VerticalAlignment="Center">
+                    <Button
+                    Click="CloseButton_Click"
+                    DockPanel.Dock="Right">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <TextBlock Foreground="#FFF0F0F0" FontSize="11" Padding="9,3,9,3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsMouseOver" Value="True">
+                                                    <Setter Property= "Background" Value="IndianRed"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                ✕
+                                </TextBlock>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <TextBlock HorizontalAlignment="Left" IsHitTestVisible="False" Foreground="#FFF0F0F0" FontWeight="Bold" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center">Add new games</TextBlock>
+                </DockPanel>
+            </DockPanel>
+
+            <Rectangle Fill="#2F3136"  Grid.Row="1" Margin="15,15,15,15" RadiusY="14.667" RadiusX="14.667">
+            </Rectangle>
+
+            <Grid Grid.Row="1" Width="150" Height="150" HorizontalAlignment="Left" Margin="20,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Image Grid.Column="0" Grid.Row="0" Margin="5" Source="C:\Users\aiyoj\Pictures\steam_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+                <Image Grid.Column="1" Grid.Row="0" Margin="5" Source="C:\Users\aiyoj\Pictures\battlenet_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+                <Image Grid.Column="0" Grid.Row="1" Margin="5" Source="C:\Users\aiyoj\Pictures\origin_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+                <Image Grid.Column="1" Grid.Row="1" Margin="5" Source="C:\Users\aiyoj\Pictures\uplay_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+
+            </Grid>
+
+            <TextBlock Margin="200,30,165,0" Grid.Row="1" Foreground="#FFFFF8F8" TextWrapping="WrapWithOverflow" Opacity="1" TextAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="16">
+                                        Add your games from Steam, Battle.net and multiple other supported platforms!</TextBlock>
+
+            <TextBlock Margin="200,0,165,30" Grid.Row="1" Foreground="#FFFFF8F8" TextWrapping="WrapWithOverflow" Opacity="1" TextAlignment="Center" VerticalAlignment="Bottom" FontSize="15">
+                                        Just click the button and we will add them automatically, more support to come!</TextBlock>
+
+            <Border HorizontalAlignment="Right" VerticalAlignment="Center" Padding="15,10,15,10" Grid.Row="1" BorderThickness="0,5" Background="#FF7289DA" CornerRadius="5" Margin="0,0,55,0" MouseUp="SearchForGamesAuto">
+                <Image Width="40" Height="40" Source="C:\Users\aiyoj\Pictures\search_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+            </Border>
+
+            <Rectangle Fill="#2F3136" Grid.Row="2" Margin="15,15,15,15" RadiusY="14.667" RadiusX="14.667">
+            </Rectangle>
+
+            <Image Grid.Row="2" Margin="40,40,0,40" HorizontalAlignment="Left" Source="C:\Users\aiyoj\Pictures\folder_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+
+            <TextBlock Margin="200,30,165,0" Grid.Row="2" Foreground="#FFFFF8F8" TextWrapping="WrapWithOverflow" Opacity="1" TextAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" FontSize="18">
+                                        Couldn't our algorithm find your games? Add them manually!</TextBlock>
+
+            <TextBlock Margin="200,0,165,30" Grid.Row="2" Foreground="#FFFFF8F8" TextWrapping="WrapWithOverflow" Opacity="1" TextAlignment="Center" VerticalAlignment="Bottom" FontSize="15">
+                                        Simply press the button and search them on your PC. We will do the rest!</TextBlock>
+
+            <Border HorizontalAlignment="Right" VerticalAlignment="Center" Padding="15,10,15,10" Grid.Row="2" BorderThickness="0,5" Background="IndianRed" CornerRadius="5" Margin="0,0,55,0" MouseUp="SearchForGamesManual">
+                <Image Width="40" Height="40" Source="C:\Users\aiyoj\Pictures\search_icon.png" RenderOptions.BitmapScalingMode="Fant"/>
+            </Border>
+
+        </Grid>
+    </Border>
+</Window>
