@@ -58,9 +58,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Objects\PathSteam.cs" />
+    <Compile Include="Objects\Preferencia.cs" />
+    <Compile Include="Objects\Cuenta.cs" />
+    <Compile Include="Objects\Configuracion.cs" />
+    <Compile Include="Objects\ConfiguracionId.cs" />
+    <Compile Include="Objects\Error.cs" />
+    <Compile Include="Objects\Horario.cs" />
+    <Compile Include="Objects\Idioma.cs" />
+    <Compile Include="Objects\Juego.cs" />
     <Compile Include="GameCard.xaml.cs">
       <DependentUpon>GameCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\Plataforma.cs" />
+    <Compile Include="Objects\RegistoJuego.cs" />
     <Compile Include="UserSettings.xaml.cs">
       <DependentUpon>UserSettings.xaml</DependentUpon>
     </Compile>
