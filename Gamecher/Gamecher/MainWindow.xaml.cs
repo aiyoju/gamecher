@@ -59,11 +59,14 @@ namespace Gamecher
                     {
                         if (i.Contains("steamapps"))
                         {
-                            string resultPath = new Regex(@"\bsteamapps\b").Split(i)[0] + "steamapps";
-                            if (!resultPaths.Contains(resultPath))
+                            if (new Regex(@"steamapps").Split(i)[1].Equals(""))
                             {
-                                resultPaths.Add(resultPath);
-                                pathsFound.Add(resultPath);
+                                string resultPath = new Regex(@"steamapps").Split(i)[0] + "steamapps";
+                                if (!resultPaths.Contains(resultPath))
+                                {
+                                    resultPaths.Add(resultPath);
+                                    pathsFound.Add(resultPath);
+                                }
                             }
                         }
                     };
