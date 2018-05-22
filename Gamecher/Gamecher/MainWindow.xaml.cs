@@ -1,6 +1,8 @@
-﻿using Microsoft.Win32;
+﻿using Gamecher.Objects;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Permissions;
@@ -39,6 +41,12 @@ namespace Gamecher
                     Application.Current.MainWindow.DragMove();
                 }
 
+            searchForBattlenetGames();
+
+        }
+
+        public void searchForSteamGames()
+        {
             DriveInfo[] drives = DriveInfo.GetDrives();
             List<string> pathsFound = new List<string>();
             List<string> allAppidFiles = new List<string>();
@@ -95,43 +103,141 @@ namespace Gamecher
                     numberOfTask++;
                     if (numberOfTask == drives.Length)
                     {
+                        List<Juego> games = new List<Juego>();
+
                         pathsFound.ForEach(i => Console.WriteLine(i));
                         allAppidFiles.ForEach(i => Console.WriteLine(i));
-                        allAppids.ForEach(i => Console.WriteLine(i));
+                        allAppids.ForEach(i => games.Add(new Juego() { appid = i }));
+
+                       /* games.Add(pathsFound);
+                        games.Add(allAppids);
+
+                        returnSteamGames(games);*/
                     }
                 });
             }
+        }
 
+        public List<Juego> returnSteamGames(List<Juego> games)
+        {
+            return games;
+        }
 
-            string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key))
+        public void searchForBattlenetGames()
+        {
+            Task t = Task.Factory.StartNew(() =>
             {
-                foreach (string subkey_name in key.GetSubKeyNames())
+                string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registry_key))
                 {
-                    using (RegistryKey subkey = key.OpenSubKey(subkey_name))
+                    foreach (string subkey_name in key.GetSubKeyNames())
                     {
-                        if (subkey.GetValue("DisplayName") != null && subkey.GetValue("InstallLocation") != null)
+                        using (RegistryKey subkey = key.OpenSubKey(subkey_name))
                         {
-                            if (!subkey.GetValue("InstallLocation").ToString().Equals(""))
+                            if (subkey.GetValue("DisplayName") != null && subkey.GetValue("InstallLocation") != null)
                             {
-                                Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
-                                Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
-                                List<String> exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
-                                exeList.ForEach(i => Console.WriteLine(i));
+                                if (!subkey.GetValue("InstallLocation").ToString().Equals(""))
+                                {
+                                    List<String> exeList = null;
+                                    switch (subkey.GetValue("DisplayName").ToString().ToLower())
+                                    {
+                                        case "overwatch":
+                                            Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
+                                            Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
+                                            exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
+                                            exeList.ForEach(i => Console.WriteLine(i));
 
-                                Console.WriteLine();
+                                            //Process.Start(@"battlenet://Pro");
+
+                                            Console.WriteLine();
+                                            break;
+                                        case "hearthstone":
+                                            Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
+                                            Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
+                                            exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
+                                            exeList.ForEach(i => Console.WriteLine(i));
+
+                                            Console.WriteLine();
+                                            break;
+                                        case "heroes of the storm":
+                                            Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
+                                            Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
+                                            exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
+                                            exeList.ForEach(i => Console.WriteLine(i));
+
+                                            Console.WriteLine();
+                                            break;
+
+                                        case "diablo iii":
+                                            Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
+                                            Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
+                                            exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
+                                            exeList.ForEach(i => Console.WriteLine(i));
+
+                                            Console.WriteLine();
+                                            break;
+                                        case "diablo ii":
+                                            Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
+                                            Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
+                                            exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
+                                            exeList.ForEach(i => Console.WriteLine(i));
+
+                                            Console.WriteLine();
+                                            break;
+                                        case "world of warcraft":
+                                            Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
+                                            Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
+                                            exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
+                                            exeList.ForEach(i => Console.WriteLine(i));
+
+                                            Console.WriteLine();
+                                            break;
+                                        case "starcraft":
+                                            Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
+                                            Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
+                                            exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
+                                            exeList.ForEach(i => Console.WriteLine(i));
+
+                                            Console.WriteLine();
+                                            break;
+                                        case "starcraft ii":
+                                            Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
+                                            Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
+                                            exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
+                                            exeList.ForEach(i => Console.WriteLine(i));
+
+                                            Console.WriteLine();
+                                            break;
+                                        case "warcraft iii":
+                                            Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
+                                            Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
+                                            exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
+                                            exeList.ForEach(i => Console.WriteLine(i));
+
+                                            Console.WriteLine();
+                                            break;
+
+                                        case "destiny 2":
+                                            Console.WriteLine("DisplayName: " + subkey.GetValue("DisplayName"));
+                                            Console.WriteLine("InstallLocation: " + subkey.GetValue("InstallLocation"));
+                                            exeList = GetFiles(subkey.GetValue("InstallLocation").ToString(), ".exe", SearchOption.AllDirectories).Cast<String>().ToList();
+                                            exeList.ForEach(i => Console.WriteLine(i));
+
+                                            Console.WriteLine();
+                                            break;
+
+                                    }
+
+                                }
                             }
                         }
                     }
                 }
-            }
-
-            //List<String> prueba = Search("D:/", ".txt", SearchOption.AllDirectories);
-            //prueba.ForEach(i => Console.WriteLine(i));
-
-
+            }).ContinueWith(tsk =>
+            {
+               
+            });
         }
-
 
         public static IEnumerable<string> GetFiles(string path,
                        string searchPatternExpression = "",
