@@ -1,5 +1,6 @@
 ﻿using Gamecher.Objects;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,9 +19,13 @@ namespace Gamecher
     /// <summary>
     /// Lógica de interacción para MainWindow.xaml
     /// </summary>
+    /// 
 
     public partial class MainWindow : Window
     {
+
+        public readonly string STEAM_API_KEY = "D297C7CEC2B377B7D4ED0FE086825E28";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,7 +46,9 @@ namespace Gamecher
                     Application.Current.MainWindow.DragMove();
                 }
 
-            searchForBattlenetGames();
+
+            searchForSteamGames();
+
 
         }
 
@@ -78,7 +85,7 @@ namespace Gamecher
                                 }
                             }
                         }
-                    };
+                    }
 
                     foreach (string resultPath in resultPaths)
                     {
@@ -93,6 +100,20 @@ namespace Gamecher
                                 string appid = Regex.Split(i, @"appmanifest_")[1];
                                 appid = Regex.Split(appid, @".acf")[0];
                                 allappidfiles.Add(appid);
+
+                                string json = @"{""app";
+                                var jsonArray = Regex.Split(HTTPUtils.HTTPGet("https://store.steampowered.com/api/appdetails", "?appids=" + appid + "&l=english"), @"""");
+                                for (int j = 2; j < jsonArray.Length; j++) {
+                                    json += @""""+jsonArray[j];
+                                }
+                                var steamGame = JsonConvert.DeserializeObject<RootObject>(json);
+                                Console.WriteLine(steamGame.app.data.name);
+                                Console.WriteLine(steamGame.app.data.about_the_game);
+                                if(steamGame.app.data.metacritic!=null) Console.WriteLine(steamGame.app.data.metacritic.score);
+                                steamGame.app.data.publishers.ForEach(e => Console.WriteLine(e));
+                                steamGame.app.data.categories.ForEach(e => Console.WriteLine(e.description));
+                                steamGame.app.data.genres.ForEach(e => Console.WriteLine(e.description));
+                                Console.WriteLine();
                             }
 
                             allappidfiles.ForEach(i => allAppids.Add(i));
