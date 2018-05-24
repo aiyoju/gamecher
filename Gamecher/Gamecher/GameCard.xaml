@@ -79,7 +79,7 @@
                                         15
                     </TextBlock>
                 </Viewbox>
-                <Image Grid.Column="6" Source="C:\Users\aiyoj\Pictures\settings_white.png" RenderOptions.BitmapScalingMode="Fant" Width="20" Height="20">
+                <Image x:Name="GameSettings" Grid.Column="6" Source="C:\Users\aiyoj\Pictures\settings_white.png" RenderOptions.BitmapScalingMode="Fant" Width="20" Height="20">
                     <Image.Style>
                         <Style TargetType="Image">
                             <Setter Property="Opacity" Value="0.6"/>

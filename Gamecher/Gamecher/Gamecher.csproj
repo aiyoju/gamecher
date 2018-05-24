@@ -41,6 +41,9 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SharpConfig, Version=3.2.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\sharpconfig.3.2.8\lib\net20\SharpConfig.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -61,6 +64,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConfigGame.xaml.cs">
+      <DependentUpon>ConfigGame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="HTTPUtils.cs" />
     <Compile Include="Objects\SteamGame.cs" />
     <Compile Include="Objects\PathSteam.cs" />
@@ -83,6 +89,10 @@
     <Compile Include="GameAdder.xaml.cs">
       <DependentUpon>GameAdder.xaml</DependentUpon>
     </Compile>
+    <Page Include="ConfigGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

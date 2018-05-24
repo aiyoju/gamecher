@@ -12,7 +12,7 @@
         WindowStyle="None"
         ShowInTaskbar="True" 
         WindowStartupLocation="CenterScreen"
-        Title="UserSettings" Height="421" Width="580">
+        Title="GameAdder" Height="421" Width="580">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>

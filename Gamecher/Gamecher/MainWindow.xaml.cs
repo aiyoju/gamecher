@@ -1,6 +1,7 @@
 ﻿using Gamecher.Objects;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using SharpConfig;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Effects;
 
@@ -29,6 +31,10 @@ namespace Gamecher
         public MainWindow()
         {
             InitializeComponent();
+            GameCard gC = new GameCard();
+            //gC.PlayButton.MouseUp += PlayButtonClicked;
+            gC.GameSettings.MouseUp += GameSettingsClicked;
+            wrapMahepanel.Children.Add(gC);
         }
 
         /// <summary>
@@ -102,16 +108,22 @@ namespace Gamecher
                                 allappidfiles.Add(appid);
 
                                 string json = @"{""app";
-                                var jsonArray = Regex.Split(HTTPUtils.HTTPGet("https://store.steampowered.com/api/appdetails", "?appids=" + appid + "&l=english"), @"""");
-                                for (int j = 2; j < jsonArray.Length; j++) {
-                                    json += @""""+jsonArray[j];
+                                string getJson = HTTPUtils.HTTPGet("https://store.steampowered.com/api/appdetails", "?appids=" + appid + "&l=english");
+                                Console.WriteLine(getJson);
+                                var jsonArray = Regex.Split(getJson, @"""");
+                                for (int j = 2; j < jsonArray.Length; j++)
+                                {
+                                    json += @"""" + jsonArray[j];
                                 }
+
                                 var steamGame = JsonConvert.DeserializeObject<RootObject>(json);
                                 Console.WriteLine(steamGame.app.data.name);
                                 Console.WriteLine(steamGame.app.data.about_the_game);
-                                if(steamGame.app.data.metacritic!=null) Console.WriteLine(steamGame.app.data.metacritic.score);
+                                if (steamGame.app.data.metacritic != null) Console.WriteLine(steamGame.app.data.metacritic.score);
                                 steamGame.app.data.publishers.ForEach(e => Console.WriteLine(e));
+                                Console.WriteLine();
                                 steamGame.app.data.categories.ForEach(e => Console.WriteLine(e.description));
+                                Console.WriteLine();
                                 steamGame.app.data.genres.ForEach(e => Console.WriteLine(e.description));
                                 Console.WriteLine();
                             }
@@ -130,10 +142,10 @@ namespace Gamecher
                         allAppidFiles.ForEach(i => Console.WriteLine(i));
                         allAppids.ForEach(i => games.Add(new Juego() { appid = i }));
 
-                       /* games.Add(pathsFound);
-                        games.Add(allAppids);
+                        /* games.Add(pathsFound);
+                         games.Add(allAppids);
 
-                        returnSteamGames(games);*/
+                         returnSteamGames(games);*/
                     }
                 });
             }
@@ -256,7 +268,7 @@ namespace Gamecher
                 }
             }).ContinueWith(tsk =>
             {
-               
+
             });
         }
 
@@ -353,22 +365,32 @@ namespace Gamecher
 
         private void AddGameClicked(object sender, MouseButtonEventArgs e)
         {
-            /*GameCard gC = new GameCard();
-            gC.PlayButton.MouseUp += AddGameClicked;
-            wrapMahepanel.Children.Add(gC);*/
-            
+
             this.Opacity = 0.9;
             this.Effect = new BlurEffect();
-            
+
             var gameAdder = new GameAdder()
             {
                 Owner = this,
                 ShowInTaskbar = false
             };
-            
+
             gameAdder.ShowDialog();
 
-            
+        }
+
+        private void GameSettingsClicked(object sender, MouseButtonEventArgs e)
+        {
+            this.Opacity = 0.9;
+            this.Effect = new BlurEffect();
+
+            var configGame = new ConfigGame()
+            {
+                Owner = this,
+                ShowInTaskbar = false
+            };
+
+            configGame.ShowDialog();
         }
     }
 }
