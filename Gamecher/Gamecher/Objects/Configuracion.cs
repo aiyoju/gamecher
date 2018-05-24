@@ -36,13 +36,13 @@ namespace Gamecher.Objects
         public sbyte? suavizadoRaton { get; set; }
         public sbyte? aceleracionRaton { get; set; }
         public int? fov { get; set; }
-        public DateTime fechaModificado { get; set; }
+        public DateTimeOffset fechaModificado { get; set; }
 
         public Configuracion()
         {
         }
 
-        public Configuracion(ConfiguracionId id, Cuenta cuenta, Juego juego, string pathExe, DateTime fechaModificado)
+        public Configuracion(ConfiguracionId id, Cuenta cuenta, Juego juego, string pathExe, DateTimeOffset fechaModificado)
         {
             this.id = id;
             this.cuenta = cuenta;
@@ -56,7 +56,7 @@ namespace Gamecher.Objects
                 string sincronizacionVertical, int? fps, string sombras, string iluminacion, string oclusionAmbiental,
                 string motionBlur, string efectos, int? sonidoGeneral, int? sonidoFx, int? sonidoMusica,
                 int? sonidoVoces, string idioma, sbyte? subtitulos, string idiomaSubtitulos, double? sensibilidad,
-                sbyte? suavizadoRaton, sbyte? aceleracionRaton, int? fov, DateTime fechaModificado)
+                sbyte? suavizadoRaton, sbyte? aceleracionRaton, int? fov, DateTimeOffset fechaModificado)
         {
             this.id = id;
             this.cuenta = cuenta;

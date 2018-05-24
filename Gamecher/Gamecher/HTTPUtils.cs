@@ -10,7 +10,7 @@ namespace Gamecher
     {
         
 
-        public static async Task<string> HTTPPost(string url, StringContent json)
+        public static string HTTPPost(string url, StringContent json)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(url);
@@ -20,11 +20,11 @@ namespace Gamecher
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = await client.PostAsync(url, json);
+            HttpResponseMessage response = client.PostAsync(url, json).Result;
             response.EnsureSuccessStatusCode();
 
             // return URI of the created resource.
-            return response.Content.ToString();
+            return response.Content.ReadAsStringAsync().Result;
         }
 
         public static string HTTPGet(string url, string urlParameters)
