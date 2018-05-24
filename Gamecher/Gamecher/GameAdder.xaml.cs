@@ -219,6 +219,7 @@ namespace Gamecher
 
             foreach (Configuracion game in games)
             {
+                Console.WriteLine(game.juego.nombre);
                 GameCard gC = new GameCard();
                 gC.ImageGame.ImageSource = new BitmapImage(new Uri(game.juego.imageUrl));
                 gC.GameName.Text = game.juego.nombre;

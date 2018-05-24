@@ -174,5 +174,8 @@
     <Resource Include="Images\trophies_white.png" />
     <Resource Include="Images\uplay_icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\default_bg.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
