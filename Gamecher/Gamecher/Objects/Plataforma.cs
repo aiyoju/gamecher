@@ -12,18 +12,18 @@ namespace Gamecher.Objects
         public string nombre { get; set; }
         public string path { get; set; }
         public string api { get; set; }
-        public DateTime fechaModificado { get; set; }
+        public DateTimeOffset fechaModificado { get; set; }
 
         public Plataforma()
         {
         }
 
-        public Plataforma(DateTime fechaModificado)
+        public Plataforma(DateTimeOffset fechaModificado)
         {
             this.fechaModificado = fechaModificado;
         }
 
-        public Plataforma(string nombre, string path, string api, DateTime fechaModificado)
+        public Plataforma(string nombre, string path, string api, DateTimeOffset fechaModificado)
         {
             this.nombre = nombre;
             this.path = path;

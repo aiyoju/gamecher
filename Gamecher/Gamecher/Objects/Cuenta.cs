@@ -14,16 +14,16 @@ namespace Gamecher.Objects
         public string contrasenya { get; set; }
         public string correo { get; set; }
         public byte[] avatar { get; set; }
-        public DateTime fechaAlta { get; set; }
-        public DateTime fechaBaja { get; set; }
-        public DateTime fechaModificado { get; set; }
+        public DateTimeOffset fechaAlta { get; set; }
+        public DateTimeOffset fechaBaja { get; set; }
+        public DateTimeOffset fechaModificado { get; set; }
 
         public Cuenta()
         {
         }
 
-        public Cuenta(Preferencia preferencia, string usuario, string contrasenya, string correo, DateTime fechaAlta,
-                DateTime fechaModificado)
+        public Cuenta(Preferencia preferencia, string usuario, string contrasenya, string correo, DateTimeOffset fechaAlta,
+                DateTimeOffset fechaModificado)
         {
             this.preferencia = preferencia;
             this.usuario = usuario;
@@ -34,7 +34,7 @@ namespace Gamecher.Objects
         }
 
         public Cuenta(Preferencia preferencia, string usuario, string contrasenya, string correo, byte[] avatar,
-                DateTime fechaAlta, DateTime fechaBaja, DateTime fechaModificado)
+                DateTimeOffset fechaAlta, DateTimeOffset fechaBaja, DateTimeOffset fechaModificado)
         {
             this.preferencia = preferencia;
             this.usuario = usuario;

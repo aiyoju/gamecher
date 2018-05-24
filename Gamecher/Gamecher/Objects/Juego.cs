@@ -18,24 +18,24 @@ namespace Gamecher.Objects
         public string companyia { get; set; }
         public string pathConfiguracion { get; set; }
         public sbyte? trofeos { get; set; }
-        public DateTime fechaLanzamiento { get; set; }
+        public DateTimeOffset fechaLanzamiento { get; set; }
         public double? puntuacion { get; set; }
-        public DateTime fechaModificado { get; set; }
+        public DateTimeOffset fechaModificado { get; set; }
 
 
         public Juego()
         {
         }
 
-        public Juego(Plataforma plataforma, DateTime fechaModificado)
+        public Juego(Plataforma plataforma, DateTimeOffset fechaModificado)
         {
             this.plataforma = plataforma;
             this.fechaModificado = fechaModificado;
         }
 
         public Juego(Plataforma plataforma, string nombre, string appid, string imageUrl, string descripcion, string genero,
-                string companyia, string pathConfiguracion, sbyte? trofeos, DateTime fechaLanzamiento, double? puntuacion,
-                DateTime fechaModificado)
+                string companyia, string pathConfiguracion, sbyte? trofeos, DateTimeOffset fechaLanzamiento, double? puntuacion,
+                DateTimeOffset fechaModificado)
         {
             this.plataforma = plataforma;
             this.nombre = nombre;

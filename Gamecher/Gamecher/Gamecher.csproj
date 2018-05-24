@@ -61,6 +61,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ButtonFilter.xaml.cs">
+      <DependentUpon>ButtonFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\CategoryHelper.cs" />
     <Compile Include="HTTPUtils.cs" />
     <Compile Include="Objects\SteamGame.cs" />
     <Compile Include="Objects\PathSteam.cs" />
@@ -83,6 +87,10 @@
     <Compile Include="GameAdder.xaml.cs">
       <DependentUpon>GameAdder.xaml</DependentUpon>
     </Compile>
+    <Page Include="ButtonFilter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
