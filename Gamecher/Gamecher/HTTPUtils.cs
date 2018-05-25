@@ -10,7 +10,7 @@ namespace Gamecher
     {
         
         //static variable of an ip to connect to the api
-        public readonly static string IP = "83.52.124.186";
+        public readonly static string IP = "localhost";
 
         //executes a insert of a json on the database
         public static string HTTPPost(string url, StringContent json)
