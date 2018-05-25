@@ -8,9 +8,11 @@ namespace Gamecher
 {
     class HTTPUtils
     {
-
+        
+        //static variable of an ip to connect to the api
         public readonly static string IP = "83.52.124.186";
 
+        //executes a insert of a json on the database
         public static string HTTPPost(string url, StringContent json)
         {
             try
@@ -39,6 +41,7 @@ namespace Gamecher
 
         }
 
+        //get a object from a database with a request url
         public static string HTTPGet(string url, string urlParameters)
         {
             try
@@ -69,6 +72,7 @@ namespace Gamecher
             }
         }
 
+        //Request an insert into the databases to execute an update of the object
         public static string HTTPPut(string url, string urlParameters, StringContent json)
         {
             try
@@ -96,6 +100,7 @@ namespace Gamecher
             }
         }
 
+        //TODO method that delete a object into the databases
         public static async Task<HttpStatusCode> DeleteProductAsync(string url, string urlParameters)
         {
             HttpClient client = new HttpClient
