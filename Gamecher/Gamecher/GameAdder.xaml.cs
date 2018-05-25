@@ -175,7 +175,7 @@ namespace Gamecher
 
                                     StringContent jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                    string response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                    string response = HTTPUtils.HTTPPost("http://"+HTTPUtils.IP+":8080/gamecher/configuraciones", jsonConfig);
 
                                     config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -189,7 +189,7 @@ namespace Gamecher
 
                                     StringContent jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                    string registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                    string registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
 
                                     string nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
@@ -317,47 +317,50 @@ namespace Gamecher
                     "All Games"
                 };
 
-                var categoriesCache = Regex.Split(game.juego.genero, @",").ToList<string>();
-                categoriesCache.RemoveAt(categoriesCache.Count - 1);
-
-                foreach (var cache in categoriesCache)
+                if (game.juego.genero != null)
                 {
-                    categories.Add(cache);
-                }
+                    var categoriesCache = Regex.Split(game.juego.genero, @",").ToList<string>();
+                    categoriesCache.RemoveAt(categoriesCache.Count - 1);
 
-                foreach (CategoryHelper category in listOfCategories)
-                {
-                    Console.WriteLine(category.category + "   " + category.quantity);
-                }
-                Console.WriteLine();
-                foreach (string category in categories)
-                {
-                    int? posOfCategory = null;
-                    bool hasCategory = false;
-
-                    for (int i = 0; i < listOfCategories.Count; i++)
+                    foreach (var cache in categoriesCache)
                     {
-                        if (listOfCategories[i].category.Equals(category))
+                        categories.Add(cache);
+                    }
+
+                    foreach (CategoryHelper category in listOfCategories)
+                    {
+                        Console.WriteLine(category.category + "   " + category.quantity);
+                    }
+                    Console.WriteLine();
+                    foreach (string category in categories)
+                    {
+                        int? posOfCategory = null;
+                        bool hasCategory = false;
+
+                        for (int i = 0; i < listOfCategories.Count; i++)
                         {
-                            posOfCategory = i;
-                            hasCategory = true;
-                            break;
+                            if (listOfCategories[i].category.Equals(category))
+                            {
+                                posOfCategory = i;
+                                hasCategory = true;
+                                break;
+                            }
+                        }
+                        if (hasCategory)
+                        {
+                            listOfCategories[posOfCategory.Value].quantity++;
+                        }
+                        else
+                        {
+                            listOfCategories.Add(new CategoryHelper()
+                            {
+                                category = category,
+                                quantity = 1
+                            });
                         }
                     }
-                    if (hasCategory)
-                    {
-                        listOfCategories[posOfCategory.Value].quantity++;
-                    }
-                    else
-                    {
-                        listOfCategories.Add(new CategoryHelper()
-                        {
-                            category = category,
-                            quantity = 1
-                        });
-                    }
-                }
 
+                }
             }
 
             foreach (CategoryHelper category in listOfCategories)
@@ -447,7 +450,7 @@ namespace Gamecher
 
                             StringContent jsonRegistro = new StringContent(JsonConvert.SerializeObject(horario), Encoding.UTF8, "application/json");
 
-                            HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/horarios", jsonRegistro);
+                            HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/horarios", jsonRegistro);
 
                         }
                     }
@@ -531,11 +534,17 @@ namespace Gamecher
 
                             StringContent jsonRegistro = new StringContent(JsonConvert.SerializeObject(horario), Encoding.UTF8, "application/json");
 
-                            string registoHorasJson = HTTPUtils.HTTPPut("http://83.52.124.186:8080/gamecher/horarios/" + registro.idRegistoJuego, "", jsonRegistro);
+                            string registoHorasJson = HTTPUtils.HTTPPut("http://" + HTTPUtils.IP + ":8080/gamecher/horarios/" + registro.idRegistoJuego, "", jsonRegistro);
+                            try
+                            {
+                                RegistoJuego registoHoras = JsonConvert.DeserializeObject<RegistoJuego>(registoHorasJson);
 
-                            RegistoJuego registoHoras = JsonConvert.DeserializeObject<RegistoJuego>(registoHorasJson);
-
-                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", JsonConvert.SerializeObject(registoHoras));
+                                File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", JsonConvert.SerializeObject(registoHoras));
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.StackTrace);
+                            }
 
                         }
 
@@ -577,7 +586,7 @@ namespace Gamecher
                     game.favorito = 0;
                 }
 
-                HTTPUtils.HTTPGet("http://83.52.124.186:8080/gamecher/configuraciones/cuentas/" + game.id.idCuenta + @"/juegos/" + game.id.idJuego + @"/favoritos/" + game.favorito, "");
+                HTTPUtils.HTTPGet("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones/cuentas/" + game.id.idCuenta + @"/juegos/" + game.id.idJuego + @"/favoritos/" + game.favorito, "");
 
                 File.WriteAllText(@"Data\SavedGames\" + tag + ".txt", JsonConvert.SerializeObject(game));
 
@@ -668,7 +677,7 @@ namespace Gamecher
 
                                             jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                            response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                            response = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -682,7 +691,7 @@ namespace Gamecher
 
                                             jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                            registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
                                             File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
@@ -709,7 +718,7 @@ namespace Gamecher
 
                                             jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                            response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                            response = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -723,7 +732,7 @@ namespace Gamecher
 
                                             jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                            registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
                                             File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
@@ -750,7 +759,7 @@ namespace Gamecher
 
                                             jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                            response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                            response = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -764,7 +773,7 @@ namespace Gamecher
 
                                             jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                            registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
                                             File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
@@ -791,7 +800,7 @@ namespace Gamecher
 
                                             jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                            response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                            response = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -805,7 +814,7 @@ namespace Gamecher
 
                                             jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                            registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
                                             Console.WriteLine(registro);
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
@@ -833,7 +842,7 @@ namespace Gamecher
 
                                             jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                            response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                            response = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -847,7 +856,7 @@ namespace Gamecher
 
                                             jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                            registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
                                             File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
@@ -874,7 +883,7 @@ namespace Gamecher
 
                                             jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                            response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                            response = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -888,7 +897,7 @@ namespace Gamecher
 
                                             jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                            registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
                                             File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
@@ -915,7 +924,7 @@ namespace Gamecher
 
                                             jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                            response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                            response = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -929,7 +938,7 @@ namespace Gamecher
 
                                             jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                            registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
                                             File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
@@ -956,7 +965,7 @@ namespace Gamecher
 
                                             jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                            response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                            response = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -970,7 +979,7 @@ namespace Gamecher
 
                                             jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                            registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
                                             File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
@@ -997,7 +1006,7 @@ namespace Gamecher
 
                                             jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                            response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                            response = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -1011,7 +1020,7 @@ namespace Gamecher
 
                                             jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                            registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
                                             File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
@@ -1039,7 +1048,7 @@ namespace Gamecher
 
                                             jsonConfig = new StringContent(JsonConvert.SerializeObject(config), Encoding.UTF8, "application/json");
 
-                                            response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
+                                            response = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
 
@@ -1053,7 +1062,7 @@ namespace Gamecher
 
                                             jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
 
-                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+                                            registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
                                             File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
