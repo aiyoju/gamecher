@@ -317,6 +317,7 @@ namespace Gamecher
                 gC.GameName.MouseUp += gA.GameNamePressed;
                 gC.ImageGame.ImageSource = new BitmapImage(new Uri(game.juego.imageUrl));
                 gC.GameName.Text = game.juego.nombre;
+                gC.GameName.Tag = nombre;
                 gC.PlayButton.Tag = game.pathExe;
                 gC.SettingsButton.Tag = game.juego.pathConfiguracion;
                 (Application.Current.MainWindow as MainWindow).WrapPanel.Children.Add(gC);

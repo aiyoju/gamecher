@@ -26,15 +26,16 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="70"/>
             </Grid.RowDefinitions>
-            <Image x:Name="ImageOfGameInfo" Grid.Row="0" Stretch="UniformToFill">
+            <Image Grid.Row="0" Stretch="UniformToFill">
                 <Image.Source>
-                    <BitmapImage  UriSource="images/default_bg.jpg"/>
+                    <BitmapImage  UriSource="images/default_bg.jpg" />
                 </Image.Source>
             </Image>
-
-            <Viewbox Grid.Row="0" Margin="40,15,40,0">
-                <TextBlock x:Name="GameNameInfoView" Foreground="White" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" />
-            </Viewbox>
+            <Rectangle Grid.Row="0" >
+                <Rectangle.Fill>
+                    <ImageBrush x:Name="ImageOfGameInfo"  Stretch="UniformToFill"/>
+                </Rectangle.Fill>
+            </Rectangle>
 
             <Rectangle Margin="0,0,0,-1">
                 <Rectangle.Fill>
@@ -45,9 +46,9 @@
                 </Rectangle.Fill>
             </Rectangle>
 
-            <Viewbox Grid.Row="1" Margin="40,15,40,140">
-                <TextBlock x:Name="GameDescInfoView" Foreground="White" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" />
-            </Viewbox>
+            <ScrollViewer Grid.Row="1" Margin="40,15,40,140">
+                <TextBlock x:Name="GameDescInfoView" FontSize="18" Foreground="White" TextWrapping="WrapWithOverflow" TextAlignment="Center" VerticalAlignment="Top" />
+            </ScrollViewer>
 
             <TextBlock Grid.Row="1" Margin="40,180,346,108" VerticalAlignment="Center" FontSize="22" Text="Genres:" FontWeight="Bold" Foreground="#FEFEFE"/>
             <TextBlock x:Name="genresOfGameInfo" Grid.Row="1" Margin="119,181,40,70" VerticalAlignment="Center" FontSize="20" Foreground="#FEFEFE" Height="64"/>

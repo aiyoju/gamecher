@@ -303,6 +303,7 @@ namespace Gamecher
                 gC.GameName.MouseUp += GameNamePressed;
                 gC.ImageGame.ImageSource = new BitmapImage(new Uri(game.juego.imageUrl));
                 gC.GameName.Text = game.juego.nombre;
+                gC.GameName.Tag = nombre;
                 gC.PlayButton.Tag = game.pathExe;
                 gC.SettingsButton.Tag = game.juego.pathConfiguracion;
                 (Application.Current.MainWindow as MainWindow).WrapPanel.Children.Add(gC);
@@ -484,14 +485,34 @@ namespace Gamecher
         {
             (Application.Current.MainWindow as MainWindow).Opacity = 0.9;
             (Application.Current.MainWindow as MainWindow).Effect = new BlurEffect();
+            Configuracion juego = null;
+            string nombreFichero = (sender as TextBlock).Tag.ToString();
 
-            var GameInfo = new GameInfo()
+            Task t = Task.Factory.StartNew(() =>
             {
-                Owner = (Application.Current.MainWindow as MainWindow),
-                ShowInTaskbar = false
-            };
+               
+                string[] linesRegistro = File.ReadAllLines(@"Data\SavedGames\" + nombreFichero + ".txt");
+                string jsonCache = "";
+                foreach (string line in linesRegistro)
+                {
+                    jsonCache += line;
+                }
 
-            GameInfo.ShowDialog();
+                juego = JsonConvert.DeserializeObject<Configuracion>(jsonCache);
+
+            }).ContinueWith(tsk =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    var GameInfo = new GameInfo(juego)
+                    {
+                        Owner = (Application.Current.MainWindow as MainWindow),
+                        ShowInTaskbar = false
+                    };
+
+                    GameInfo.ShowDialog();
+                });
+            });
         }
 
         public void UpdateHours(object sender, EventArgs e)
