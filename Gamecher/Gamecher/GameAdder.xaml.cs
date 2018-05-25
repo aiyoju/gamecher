@@ -282,10 +282,10 @@ namespace Gamecher
             //create the games of the gui and places a coinfig file in local storage
             foreach (Configuracion game in gameList)
             {
-                Console.WriteLine(JsonConvert.SerializeObject(game));
+                
                 string nombre = game.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
 
-                Console.WriteLine(nombre);
+               
                 File.WriteAllText(@"Data\SavedGames\" + nombre + ".txt", JsonConvert.SerializeObject(game));
 
                 string[] linesRegistro = File.ReadAllLines(@"Data\GamesRegister\" + nombre + ".txt");
@@ -340,11 +340,7 @@ namespace Gamecher
                         categories.Add(cache);
                     }
 
-                    foreach (CategoryHelper category in listOfCategories)
-                    {
-                        Console.WriteLine(category.category + "   " + category.quantity);
-                    }
-                    Console.WriteLine();
+                    
                     foreach (string category in categories)
                     {
                         int? posOfCategory = null;
@@ -434,7 +430,7 @@ namespace Gamecher
                 string[] filesCache = Directory.GetFiles(folder, filter);
                 foreach (var file in filesCache)
                 {
-                    Console.WriteLine(file);
+                   
                     if (!file.Equals(@"Data\SavedGames\ReadMe.txt"))
                     {
                         string[] lines = File.ReadAllLines(file);
@@ -443,7 +439,7 @@ namespace Gamecher
                         {
                             json += line;
                         }
-                        Console.WriteLine(json);
+                        
 
                         Configuracion game = JsonConvert.DeserializeObject<Configuracion>(json);
 
@@ -546,7 +542,7 @@ namespace Gamecher
                 string[] filesCache = Directory.GetFiles(folder, filter);
                 foreach (var file in filesCache)
                 {
-                    Console.WriteLine(file);
+                   
                     if (!file.Equals(@"Data\SavedGames\ReadMe.txt"))
                     {
                         string[] lines = File.ReadAllLines(file);
@@ -555,7 +551,7 @@ namespace Gamecher
                         {
                             json += line;
                         }
-                        Console.WriteLine(json);
+                       
 
                         Configuracion game = JsonConvert.DeserializeObject<Configuracion>(json);
 
@@ -655,7 +651,7 @@ namespace Gamecher
                 string[] filesCache = Directory.GetFiles(folder, filter);
                 foreach (var file in filesCache)
                 {
-                    Console.WriteLine(file);
+                    
                     if (!file.Equals(@"Data\SavedGames\ReadMe.txt"))
                     {
                         string[] lines = File.ReadAllLines(file);
@@ -664,7 +660,7 @@ namespace Gamecher
                         {
                             json += line;
                         }
-                        Console.WriteLine(json);
+                       
                         games.Add(JsonConvert.DeserializeObject<Configuracion>(json));
                     }
                 }
@@ -861,7 +857,7 @@ namespace Gamecher
 
                                             registro = HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/registro_juegos", jsonRegistro);
 
-                                            Console.WriteLine(registro);
+                                            
                                             nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
                                             File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
 
