@@ -12,7 +12,7 @@ namespace Gamecher.Objects
         public Cuenta cuenta { get; set; }
         public string descripcion { get; set; }
         public string excepcion { get; set; }
-        public DateTime fecha { get; set; }
+        public DateTimeOffset fecha { get; set; }
 
         public Error()
         {

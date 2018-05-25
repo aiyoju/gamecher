@@ -14,7 +14,7 @@ namespace Gamecher.Objects
         public sbyte? inicioAutomatico { get; set; }
         public sbyte? actualizacionesAutomaticas { get; set; }
         public sbyte? minimizarAlCerrar { get; set; }
-        public DateTime fechaModificado { get; set; }
+        public DateTimeOffset fechaModificado { get; set; }
 
         public Preferencia()
         {

@@ -47,7 +47,7 @@ namespace Gamecher
             return json;
         }
 
-        public static async Task<String> HTTPPut(string url, string urlParameters, StringContent json)
+        public static string HTTPPut(string url, string urlParameters, StringContent json)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(url);
@@ -57,11 +57,11 @@ namespace Gamecher
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = await client.PutAsync(urlParameters, json);
+            HttpResponseMessage response = client.PutAsync(urlParameters, json).Result;
             response.EnsureSuccessStatusCode();
 
             // Deserialize the updated product from the response body.
-            return response.Content.ToString();
+            return response.Content.ReadAsStringAsync().Result;
         }
 
         public static async Task<HttpStatusCode> DeleteProductAsync(string url, string urlParameters)

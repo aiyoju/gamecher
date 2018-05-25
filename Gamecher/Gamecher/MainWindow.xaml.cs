@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -33,13 +34,58 @@ namespace Gamecher
         public readonly string STEAM_API_KEY = "D297C7CEC2B377B7D4ED0FE086825E28";
         public WrapPanel wrapPanel { get; set; }
         public StackPanel stackPanel { get; set; }
+        public System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
 
 
         public MainWindow()
         {
             InitializeComponent();
+
             wrapPanel = wrapMahepanel;
             stackPanel = StackMahePanel;
+
+            GameAdder gA = new GameAdder();
+            gA.searchForSavedGames();
+
+            SetHours();
+
+            List<Cuenta> defaultUser = new List<Cuenta>();
+            string folder = System.IO.Path.GetDirectoryName(@"Data\userConfig\");
+            string extension = "*.txt";
+            string[] filesCache = Directory.GetFiles(folder, extension);
+            bool hasFile = false;
+            foreach (var file in filesCache)
+            {
+                Console.WriteLine(file);
+                if (file.Equals(@"Data\userConfig\preferences.txt"))
+                {
+                    hasFile = true;
+                    break;
+                }
+            }
+            if (!hasFile)
+            {
+                Cuenta preferences = new Cuenta()
+                {
+                    preferencia = new Preferencia() { minimizarAlCerrar = 0, actualizacionesAutomaticas = 0, inicioAutomatico = 0 }
+                };
+
+                File.WriteAllText(@"Data\userConfig\preferences.txt", JsonConvert.SerializeObject(preferences));
+            }
+
+
+            ni.Icon = new System.Drawing.Icon(System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath, "Gamecher.ico"));
+            ni.Visible = true;
+            ni.DoubleClick +=
+                delegate (object sender, EventArgs args)
+                {
+                    this.Show();
+                    this.WindowState = System.Windows.WindowState.Normal;
+                };
+            ni.ContextMenu = new System.Windows.Forms.ContextMenu();
+
+            ni.ContextMenu.MenuItems.Add("Exit", (s, e) => { ni.Visible = false; Application.Current.Shutdown(); });
+
         }
 
         /// <summary>
@@ -57,10 +103,6 @@ namespace Gamecher
                     Application.Current.MainWindow.DragMove();
                 }
 
-
-            
-
-
         }
 
         /// <summary>
@@ -68,7 +110,17 @@ namespace Gamecher
         /// </summary>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            Cuenta preferences = setPreferencias();
+            if (preferences.preferencia.minimizarAlCerrar == 1)
+            {
+                this.Hide();
+            }
+            else
+            {
+                ni.Visible = false;
+                Application.Current.Shutdown();
+            }
+
         }
 
         /// <summary>
@@ -125,7 +177,7 @@ namespace Gamecher
             /*GameCard gC = new GameCard();
             gC.PlayButton.MouseUp += AddGameClicked;
             wrapMahepanel.Children.Add(gC);*/
-            
+
             this.Opacity = 0.9;
             this.Effect = new BlurEffect();
 
@@ -151,6 +203,152 @@ namespace Gamecher
             };
 
             configGame.ShowDialog();
+        }
+
+        public void SetHours() {
+
+            double? horas = 0;
+            Task t = Task.Factory.StartNew(() =>
+            {
+                string folder = System.IO.Path.GetDirectoryName(@"Data\GamesRegister\");
+                string filter = "*.txt";
+                string[] filesCache = Directory.GetFiles(folder, filter);
+                foreach (var file in filesCache)
+                {
+                    if (!file.Equals(@"Data\GamesRegister\ReadMe.txt"))
+                    {
+                        string[] linesRegistro = File.ReadAllLines(file);
+                        string jsonCache = "";
+                        foreach (string line in linesRegistro)
+                        {
+                            jsonCache += line;
+                        }
+
+                        RegistoJuego registro = JsonConvert.DeserializeObject<RegistoJuego>(jsonCache);
+
+                        horas += registro.horasJugadas;
+                    }
+                }
+            }).ContinueWith(tsk =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    totalHours.Text = horas.ToString();
+                });
+            });
+        }
+
+        public void filterGames(string filter)
+        {
+            List<Configuracion> games = new List<Configuracion>();
+            Task t = Task.Factory.StartNew(() =>
+            {
+                List<Configuracion> gamesCache = new List<Configuracion>();
+                string folder = System.IO.Path.GetDirectoryName(@"Data\SavedGames\");
+                string extension = "*.txt";
+                string[] filesCache = Directory.GetFiles(folder, extension);
+                foreach (var file in filesCache)
+                {
+                    Console.WriteLine(file);
+                    if (!file.Equals(@"Data\SavedGames\ReadMe.txt"))
+                    {
+                        string[] lines = File.ReadAllLines(file);
+                        string json = "";
+                        foreach (string line in lines)
+                        {
+                            json += line;
+                        }
+                        Console.WriteLine(json);
+                        gamesCache.Add(JsonConvert.DeserializeObject<Configuracion>(json));
+                        gamesCache.ForEach(i => Console.WriteLine(i.juego.nombre));
+                    }
+                }
+
+                foreach (var cache in gamesCache)
+                {
+
+                    List<string> categories = new List<string>();
+
+                    if (cache.favorito == 1)
+                    {
+                        categories.Add("Favorites");
+                    }
+
+                    categories.Add("All Games");
+
+                    var categoriesCache = Regex.Split(cache.juego.genero, @",").ToList<string>();
+                    categoriesCache.RemoveAt(categoriesCache.Count - 1);
+
+                    foreach (var cacheCategory in categoriesCache)
+                    {
+                        categories.Add(cacheCategory);
+                    }
+
+
+                    foreach (var category in categories)
+                    {
+                        if (category.Equals(filter))
+                        {
+                            games.Add(cache);
+                            break;
+                        }
+                    }
+
+                }
+
+            }).ContinueWith(tsk =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    filterUI(games);
+                });
+            });
+        }
+
+        public void filterUI(List<Configuracion> games)
+        {
+            wrapPanel.Children.Clear();
+
+            GameAdder gA = new GameAdder();
+            foreach (var game in games)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(game));
+                string nombre = game.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+
+                GameCard gC = new GameCard();
+                gC.Tag = nombre;
+                if (game.favorito == 1)
+                {
+                    gC.favButton.Style = null;
+                }
+                gC.favButton.Tag = nombre;
+                gC.favButton.MouseUp += gA.FavGameButton;
+                gC.ImageGame.ImageSource = new BitmapImage(new Uri(game.juego.imageUrl));
+                gC.GameName.Text = game.juego.nombre;
+                gC.PlayButton.Tag = game.pathExe;
+                gC.PlayButton.MouseUp += gA.LaunchPath;
+                (Application.Current.MainWindow as MainWindow).wrapPanel.Children.Add(gC);
+            }
+        }
+
+        public Cuenta setPreferencias()
+        {
+            Cuenta preferences = null;
+            try
+            {
+                string[] lines = File.ReadAllLines(@"Data\userConfig\preferences.txt");
+                string json = "";
+                foreach (string line in lines)
+                {
+                    json += line;
+                }
+
+                preferences = JsonConvert.DeserializeObject<Cuenta>(json);
+            }
+            catch (Exception e)
+            {
+            }
+            return preferences;
         }
     }
 }

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Gamecher.Objects;
+using Newtonsoft.Json;
+using System.IO;
+using Microsoft.Win32;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Gamecher
 {
@@ -23,6 +16,18 @@ namespace Gamecher
         {
             InitializeComponent();
             theme.Text = "Dark";
+            Cuenta preferences = (Application.Current.MainWindow as MainWindow).setPreferencias();
+            if (preferences.preferencia.inicioAutomatico == 1) {
+                startWithWindows.IsChecked = true;
+            }
+            if (preferences.preferencia.actualizacionesAutomaticas == 1)
+            {
+                autoUpdates.IsChecked = true;
+            }
+            if (preferences.preferencia.minimizarAlCerrar == 1)
+            {
+                minimizeOnClose.IsChecked = true;
+            }
         }
 
         private void WindowTopBarClicked(object sender, MouseButtonEventArgs e)
@@ -61,6 +66,42 @@ namespace Gamecher
 
         private void AcceptPressed(object sender, MouseButtonEventArgs e)
         {
+            Cuenta preferences = new Cuenta()
+            {
+                preferencia = new Preferencia()
+            };
+
+            if (startWithWindows.IsChecked == true)
+            {
+                preferences.preferencia.inicioAutomatico = 1;
+
+                RegistryKey rk = Registry.CurrentUser.OpenSubKey
+                       ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                
+                rk.SetValue("Gamecher", System.Reflection.Assembly.GetExecutingAssembly().Location);
+                
+            }
+            else
+            {
+                preferences.preferencia.inicioAutomatico = 0;
+                RegistryKey rk = Registry.CurrentUser.OpenSubKey
+                     ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                rk.DeleteValue("AppName", false);
+            }
+
+            if (autoUpdates.IsChecked == true)
+            {
+                preferences.preferencia.actualizacionesAutomaticas = 1;
+            }
+            else { preferences.preferencia.actualizacionesAutomaticas = 0; }
+
+            if (minimizeOnClose.IsChecked == true)
+            {
+                preferences.preferencia.minimizarAlCerrar = 1;
+            }
+            else { preferences.preferencia.minimizarAlCerrar = 0; }
+
+            File.WriteAllText(@"Data\userConfig\preferences.txt", JsonConvert.SerializeObject(preferences));
             //DoShitHereBeforeClosing
             Application.Current.MainWindow.Effect = null;
             Application.Current.MainWindow.Opacity = 1;

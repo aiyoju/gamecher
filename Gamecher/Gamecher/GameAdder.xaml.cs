@@ -7,14 +7,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -167,6 +165,7 @@ namespace Gamecher
                                         id = new ConfiguracionId(),
                                         juego = game,
                                         pathExe = "steam://rungameid/" + appid,
+                                        favorito = 0,
                                         cuenta = new Cuenta()
                                     };
                                     //Por modificar
@@ -178,6 +177,22 @@ namespace Gamecher
                                     string response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                     config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                    RegistoJuego registroJuego = new RegistoJuego()
+                                    {
+
+                                        juego = config.juego,
+                                        cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                        horasJugadas = 0
+                                    };
+
+                                    StringContent jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                    string registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+
+                                    string nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                    File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
 
                                     games.Add(config);
                                 }
@@ -202,10 +217,18 @@ namespace Gamecher
             }
         }
 
+        public void saveRegister()
+        {
+
+        }
+
         public void SetGamesUI(List<Configuracion> games)
         {
             var listOfCategories = new List<CategoryHelper>();
+            var listOfGames = new List<string>();
+
             int quantityOfButtons = 0;
+            int quantityOfFavGames = 0;
             foreach (ButtonFilter buttonFilter in (Application.Current.MainWindow as MainWindow).stackPanel.Children)
             {
                 listOfCategories.Add(new CategoryHelper()
@@ -214,27 +237,91 @@ namespace Gamecher
                     quantity = Int32.Parse(buttonFilter.numberGames.Text)
                 });
                 quantityOfButtons++;
+
             }
+            foreach (GameCard gameCard in (Application.Current.MainWindow as MainWindow).wrapPanel.Children)
+            {
+                listOfGames.Add(gameCard.GameName.Text);
+            }
+
             if (quantityOfButtons > 0) (Application.Current.MainWindow as MainWindow).stackPanel.Children.Clear();
+
+            var gameList = new List<Configuracion>();
 
             foreach (Configuracion game in games)
             {
-                Console.WriteLine(game.juego.nombre);
+                int? posOfGame = null;
+                bool hasGame = false;
+
+                for (int i = 0; i < listOfGames.Count; i++)
+                {
+                    if (listOfGames[i].Equals(game.juego.nombre))
+                    {
+                        posOfGame = i;
+                        hasGame = true;
+                        break;
+                    }
+                }
+                if (!hasGame)
+                {
+                    gameList.Add(game);
+                }
+
+            }
+
+            foreach (Configuracion game in gameList)
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(game));
+                string nombre = game.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+
+                Console.WriteLine(nombre);
+                File.WriteAllText(@"Data\SavedGames\" + nombre + ".txt", JsonConvert.SerializeObject(game));
+
+                string[] linesRegistro = File.ReadAllLines(@"Data\GamesRegister\" + nombre + ".txt");
+                string jsonCache = "";
+                foreach (string line in linesRegistro)
+                {
+                    jsonCache += line;
+                }
+
+                RegistoJuego registro = JsonConvert.DeserializeObject<RegistoJuego>(jsonCache);
+
                 GameCard gC = new GameCard();
+                gC.Tag = nombre;
+                if (game.favorito == 1)
+                {
+                    gC.favButton.Style = null;
+                }
+                gC.hoursPlayed.Text = registro.horasJugadas.ToString();
+                gC.favButton.Tag = nombre;
+                gC.favButton.MouseUp += FavGameButton;
                 gC.ImageGame.ImageSource = new BitmapImage(new Uri(game.juego.imageUrl));
                 gC.GameName.Text = game.juego.nombre;
                 gC.PlayButton.Tag = game.pathExe;
                 gC.PlayButton.MouseUp += LaunchPath;
                 (Application.Current.MainWindow as MainWindow).wrapPanel.Children.Add(gC);
 
-                var categories = Regex.Split(game.juego.genero, @",").ToList<string>();
-                categories.RemoveAt(categories.Count-1);
-                
+                if (game.favorito == 1)
+                {
+                    quantityOfFavGames++;
+                }
+                List<string> categories = new List<string>();
+                categories.Add("Favorites");
+                categories.Add("All Games");
+
+                var categoriesCache = Regex.Split(game.juego.genero, @",").ToList<string>();
+                categoriesCache.RemoveAt(categoriesCache.Count - 1);
+
+                foreach (var cache in categoriesCache)
+                {
+                    categories.Add(cache);
+                }
+
                 foreach (CategoryHelper category in listOfCategories)
                 {
                     Console.WriteLine(category.category + "   " + category.quantity);
                 }
-                Console.WriteLine("\n\n\n\n\n\n\n\n");
+                Console.WriteLine();
                 foreach (string category in categories)
                 {
                     int? posOfCategory = null;
@@ -252,7 +339,8 @@ namespace Gamecher
                     if (hasCategory)
                     {
                         listOfCategories[posOfCategory.Value].quantity++;
-                    } else
+                    }
+                    else
                     {
                         listOfCategories.Add(new CategoryHelper()
                         {
@@ -261,21 +349,234 @@ namespace Gamecher
                         });
                     }
                 }
-                                   
+
             }
+
             foreach (CategoryHelper category in listOfCategories)
             {
-                ButtonFilter bF = new ButtonFilter();
-                bF.GenreGames.Text = category.category;
-                bF.numberGames.Text = category.quantity.ToString();
-                (Application.Current.MainWindow as MainWindow).stackPanel.Children.Add(bF);
+                if (category.category.Equals("Favorites"))
+                {
+                    ButtonFilter bFav = new ButtonFilter();
+                    bFav.GenreGames.Text = category.category;
+                    bFav.numberGames.Text = quantityOfFavGames.ToString();
+                    bFav.MouseUp += FilterGame;
+                    (Application.Current.MainWindow as MainWindow).stackPanel.Children.Add(bFav);
+                }
+                else
+                {
+                    ButtonFilter bF = new ButtonFilter();
+                    bF.GenreGames.Text = category.category;
+                    bF.numberGames.Text = category.quantity.ToString();
+                    bF.MouseUp += FilterGame;
+                    (Application.Current.MainWindow as MainWindow).stackPanel.Children.Add(bF);
+                }
             }
 
         }
 
         public void LaunchPath(object sender, MouseButtonEventArgs e)
         {
-            Process.Start((sender as Polygon).Tag.ToString());
+            string launchPath = (sender as Polygon).Tag.ToString();
+            Task t = Task.Factory.StartNew(() =>
+            {
+                string folder = System.IO.Path.GetDirectoryName(@"Data\SavedGames\");
+                string filter = "*.txt";
+                string[] filesCache = Directory.GetFiles(folder, filter);
+                foreach (var file in filesCache)
+                {
+                    Console.WriteLine(file);
+                    if (!file.Equals(@"Data\SavedGames\ReadMe.txt"))
+                    {
+                        string[] lines = File.ReadAllLines(file);
+                        string json = "";
+                        foreach (string line in lines)
+                        {
+                            json += line;
+                        }
+                        Console.WriteLine(json);
+
+                        Configuracion game = JsonConvert.DeserializeObject<Configuracion>(json);
+
+                        if (game.pathExe.Equals(launchPath))
+                        {
+                            string nombre = game.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                            string[] linesRegistro = File.ReadAllLines(@"Data\GamesRegister\" + nombre + ".txt");
+                            string jsonCache = "";
+                            foreach (string line in linesRegistro)
+                            {
+                                jsonCache += line;
+                            }
+
+                            RegistoJuego registro = JsonConvert.DeserializeObject<RegistoJuego>(jsonCache);
+
+                            Horario horario = new Horario()
+                            {
+                                registoJuego = registro
+                            };
+
+                            StringContent jsonRegistro = new StringContent(JsonConvert.SerializeObject(horario), Encoding.UTF8, "application/json");
+
+                            HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/horarios", jsonRegistro);
+
+                        }
+                    }
+                }
+            }).ContinueWith(tsk =>
+                    {
+                        Application.Current.Dispatcher.Invoke((Action)delegate
+                        {
+                            Process process = new Process();
+                            process.Exited += new EventHandler(UpdateHours);
+                            process.StartInfo.FileName = (sender as Polygon).Tag.ToString();
+                            //process.StartInfo.FileName = "cmd.exe";
+                            process.EnableRaisingEvents = true;
+                            process.Start();
+                        });
+                    });
+
+        }
+
+        public void FilterGame(object sender, MouseButtonEventArgs e)
+        {
+            (Application.Current.MainWindow as MainWindow).filterGames((sender as ButtonFilter).GenreGames.Text);
+        }
+
+        public void FavGameButton(object sender, MouseButtonEventArgs e)
+        {
+            FavGame((sender as Image).Tag.ToString());
+        }
+
+        public void UpdateHours(object sender, EventArgs e)
+        {
+            List<Configuracion> games = new List<Configuracion>();
+            Task t = Task.Factory.StartNew(() =>
+            {
+                string folder = System.IO.Path.GetDirectoryName(@"Data\SavedGames\");
+                string filter = "*.txt";
+                string[] filesCache = Directory.GetFiles(folder, filter);
+                foreach (var file in filesCache)
+                {
+                    Console.WriteLine(file);
+                    if (!file.Equals(@"Data\SavedGames\ReadMe.txt"))
+                    {
+                        string[] lines = File.ReadAllLines(file);
+                        string json = "";
+                        foreach (string line in lines)
+                        {
+                            json += line;
+                        }
+                        Console.WriteLine(json);
+
+                        Configuracion game = JsonConvert.DeserializeObject<Configuracion>(json);
+
+                        string nombre = game.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                        string[] linesRegistro = File.ReadAllLines(@"Data\GamesRegister\" + nombre + ".txt");
+                        string jsonCache = "";
+                        foreach (string line in linesRegistro)
+                        {
+                            jsonCache += line;
+                        }
+
+                        RegistoJuego registro = JsonConvert.DeserializeObject<RegistoJuego>(jsonCache);
+
+                        if (game.pathExe.Equals((sender as Process).StartInfo.FileName))
+                        {
+
+                            Horario horario = new Horario();
+
+                            StringContent jsonRegistro = new StringContent(JsonConvert.SerializeObject(horario), Encoding.UTF8, "application/json");
+
+                            string registoHorasJson = HTTPUtils.HTTPPut("http://83.52.124.186:8080/gamecher/horarios/" + registro.idRegistoJuego, "", jsonRegistro);
+
+                            RegistoJuego registoHoras = JsonConvert.DeserializeObject<RegistoJuego>(registoHorasJson);
+
+                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", JsonConvert.SerializeObject(registoHoras));
+
+                        }
+
+                        games.Add(JsonConvert.DeserializeObject<Configuracion>(json));
+                    }
+                }
+            }).ContinueWith(tsk =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    (Application.Current.MainWindow as MainWindow).SetHours();
+                    searchForSavedGames();
+                });
+            });
+
+        }
+
+        public void FavGame(string tag)
+        {
+
+            Task t = Task.Factory.StartNew(() =>
+            {
+
+                string[] lines = File.ReadAllLines(@"Data\SavedGames\" + tag + ".txt");
+                string json = "";
+                foreach (string line in lines)
+                {
+                    json += line;
+                }
+
+                Configuracion game = JsonConvert.DeserializeObject<Configuracion>(json);
+
+                if (game.favorito == 0)
+                {
+                    game.favorito = 1;
+                }
+                else
+                {
+                    game.favorito = 0;
+                }
+
+                HTTPUtils.HTTPGet("http://83.52.124.186:8080/gamecher/configuraciones/cuentas/" + game.id.idCuenta + @"/juegos/" + game.id.idJuego + @"/favoritos/" + game.favorito, "");
+
+                File.WriteAllText(@"Data\SavedGames\" + tag + ".txt", JsonConvert.SerializeObject(game));
+
+            }).ContinueWith(tsk =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    searchForSavedGames();
+                });
+            });
+        }
+
+        public void searchForSavedGames()
+        {
+            (Application.Current.MainWindow as MainWindow).wrapPanel.Children.Clear();
+            (Application.Current.MainWindow as MainWindow).stackPanel.Children.Clear();
+            List<Configuracion> games = new List<Configuracion>();
+            Task t = Task.Factory.StartNew(() =>
+            {
+                string folder = System.IO.Path.GetDirectoryName(@"Data\SavedGames\");
+                string filter = "*.txt";
+                string[] filesCache = Directory.GetFiles(folder, filter);
+                foreach (var file in filesCache)
+                {
+                    Console.WriteLine(file);
+                    if (!file.Equals(@"Data\SavedGames\ReadMe.txt"))
+                    {
+                        string[] lines = File.ReadAllLines(file);
+                        string json = "";
+                        foreach (string line in lines)
+                        {
+                            json += line;
+                        }
+                        Console.WriteLine(json);
+                        games.Add(JsonConvert.DeserializeObject<Configuracion>(json));
+                    }
+                }
+            }).ContinueWith(tsk =>
+            {
+                Application.Current.Dispatcher.Invoke((Action)delegate
+                {
+                    SetGamesUI(games);
+                });
+            });
         }
 
         public void SearchForBattlenetGames()
@@ -283,7 +584,11 @@ namespace Gamecher
             List<Configuracion> games = new List<Configuracion>();
             Configuracion config = null;
             StringContent jsonConfig = null;
+            RegistoJuego registroJuego = null;
+            StringContent jsonRegistro = null;
             string response = null;
+            string registro = null;
+            string nombre = null;
             Task t = Task.Factory.StartNew(() =>
             {
                 string registry_key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
@@ -309,6 +614,7 @@ namespace Gamecher
                                                 id = new ConfiguracionId(),
                                                 juego = new Juego { idJuego = 12 },
                                                 pathExe = "battlenet://Pro",
+                                                favorito = 0,
                                                 cuenta = new Cuenta()
                                             };
                                             //Por modificar
@@ -320,6 +626,22 @@ namespace Gamecher
                                             response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                            registroJuego = new RegistoJuego()
+                                            {
+
+                                                juego = config.juego,
+                                                cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                                horasJugadas = 0
+                                            };
+
+                                            jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+                                            nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
+
                                             games.Add(config);
 
                                             break;
@@ -333,6 +655,7 @@ namespace Gamecher
                                                 id = new ConfiguracionId(),
                                                 juego = new Juego { idJuego = 11 },
                                                 pathExe = "battlenet://WTCG",
+                                                favorito = 0,
                                                 cuenta = new Cuenta()
                                             };
                                             //Por modificar
@@ -344,6 +667,22 @@ namespace Gamecher
                                             response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                            registroJuego = new RegistoJuego()
+                                            {
+
+                                                juego = config.juego,
+                                                cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                                horasJugadas = 0
+                                            };
+
+                                            jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+                                            nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
+
                                             games.Add(config);
 
                                             break;
@@ -357,6 +696,7 @@ namespace Gamecher
                                                 id = new ConfiguracionId(),
                                                 juego = new Juego { idJuego = 13 },
                                                 pathExe = "battlenet://Hero",
+                                                favorito = 0,
                                                 cuenta = new Cuenta()
                                             };
                                             //Por modificar
@@ -368,6 +708,22 @@ namespace Gamecher
                                             response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                            registroJuego = new RegistoJuego()
+                                            {
+
+                                                juego = config.juego,
+                                                cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                                horasJugadas = 0
+                                            };
+
+                                            jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+                                            nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
+
                                             games.Add(config);
 
                                             break;
@@ -381,6 +737,7 @@ namespace Gamecher
                                                 id = new ConfiguracionId(),
                                                 juego = new Juego { idJuego = 14 },
                                                 pathExe = "battlenet://D3",
+                                                favorito = 0,
                                                 cuenta = new Cuenta()
                                             };
                                             //Por modificar
@@ -392,6 +749,23 @@ namespace Gamecher
                                             response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                            registroJuego = new RegistoJuego()
+                                            {
+
+                                                juego = config.juego,
+                                                cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                                horasJugadas = 0
+                                            };
+
+                                            jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+                                            Console.WriteLine(registro);
+                                            nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
+
                                             games.Add(config);
 
                                             break;
@@ -405,6 +779,7 @@ namespace Gamecher
                                                 id = new ConfiguracionId(),
                                                 juego = new Juego { idJuego = 15 },
                                                 pathExe = "battlenet://D2",
+                                                favorito = 0,
                                                 cuenta = new Cuenta()
                                             };
                                             //Por modificar
@@ -416,6 +791,22 @@ namespace Gamecher
                                             response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                            registroJuego = new RegistoJuego()
+                                            {
+
+                                                juego = config.juego,
+                                                cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                                horasJugadas = 0
+                                            };
+
+                                            jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+                                            nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
+
                                             games.Add(config);
 
                                             break;
@@ -429,6 +820,7 @@ namespace Gamecher
                                                 id = new ConfiguracionId(),
                                                 juego = new Juego { idJuego = 16 },
                                                 pathExe = "battlenet://WoW",
+                                                favorito = 0,
                                                 cuenta = new Cuenta()
                                             };
                                             //Por modificar
@@ -440,6 +832,22 @@ namespace Gamecher
                                             response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                            registroJuego = new RegistoJuego()
+                                            {
+
+                                                juego = config.juego,
+                                                cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                                horasJugadas = 0
+                                            };
+
+                                            jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+                                            nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
+
                                             games.Add(config);
 
                                             break;
@@ -453,6 +861,7 @@ namespace Gamecher
                                                 id = new ConfiguracionId(),
                                                 juego = new Juego { idJuego = 17 },
                                                 pathExe = "battlenet://S1",
+                                                favorito = 0,
                                                 cuenta = new Cuenta()
                                             };
                                             //Por modificar
@@ -464,6 +873,22 @@ namespace Gamecher
                                             response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                            registroJuego = new RegistoJuego()
+                                            {
+
+                                                juego = config.juego,
+                                                cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                                horasJugadas = 0
+                                            };
+
+                                            jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+                                            nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
+
                                             games.Add(config);
 
                                             break;
@@ -477,6 +902,7 @@ namespace Gamecher
                                                 id = new ConfiguracionId(),
                                                 juego = new Juego { idJuego = 18 },
                                                 pathExe = "battlenet://S2",
+                                                favorito = 0,
                                                 cuenta = new Cuenta()
                                             };
                                             //Por modificar
@@ -488,6 +914,22 @@ namespace Gamecher
                                             response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                            registroJuego = new RegistoJuego()
+                                            {
+
+                                                juego = config.juego,
+                                                cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                                horasJugadas = 0
+                                            };
+
+                                            jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+                                            nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
+
                                             games.Add(config);
 
                                             break;
@@ -501,6 +943,7 @@ namespace Gamecher
                                                 id = new ConfiguracionId(),
                                                 juego = new Juego { idJuego = 19 },
                                                 pathExe = "battlenet://W3",
+                                                favorito = 0,
                                                 cuenta = new Cuenta()
                                             };
                                             //Por modificar
@@ -512,6 +955,22 @@ namespace Gamecher
                                             response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                            registroJuego = new RegistoJuego()
+                                            {
+
+                                                juego = config.juego,
+                                                cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                                horasJugadas = 0
+                                            };
+
+                                            jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+                                            nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
+
                                             games.Add(config);
 
                                             break;
@@ -526,6 +985,7 @@ namespace Gamecher
                                                 id = new ConfiguracionId(),
                                                 juego = new Juego { idJuego = 20 },
                                                 pathExe = "battlenet://DST2",
+                                                favorito = 0,
                                                 cuenta = new Cuenta()
                                             };
                                             //Por modificar
@@ -537,6 +997,22 @@ namespace Gamecher
                                             response = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/configuraciones", jsonConfig);
 
                                             config = JsonConvert.DeserializeObject<Configuracion>(response);
+
+                                            registroJuego = new RegistoJuego()
+                                            {
+
+                                                juego = config.juego,
+                                                cuenta = new Cuenta() { idCuenta = config.cuenta.idCuenta },
+                                                horasJugadas = 0
+                                            };
+
+                                            jsonRegistro = new StringContent(JsonConvert.SerializeObject(registroJuego), Encoding.UTF8, "application/json");
+
+                                            registro = HTTPUtils.HTTPPost("http://83.52.124.186:8080/gamecher/registro_juegos", jsonRegistro);
+
+                                            nombre = config.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
+                                            File.WriteAllText(@"Data\GamesRegister\" + nombre + ".txt", registro);
+
                                             games.Add(config);
 
                                             break;

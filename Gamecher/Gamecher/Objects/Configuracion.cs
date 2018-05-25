@@ -13,6 +13,7 @@ namespace Gamecher.Objects
         public Juego juego { get; set; }
         public string pathExe { get; set; }
         public string pathConfig { get; set; }
+        public sbyte? favorito { get; set; }
         public string resolucion { get; set; }
         public string texturas { get; set; }
         public string filtradoTexturas { get; set; }
@@ -51,7 +52,7 @@ namespace Gamecher.Objects
             this.fechaModificado = fechaModificado;
         }
 
-        public Configuracion(ConfiguracionId id, Cuenta cuenta, Juego juego, string pathExe, string pathConfig,
+        public Configuracion(ConfiguracionId id, Cuenta cuenta, Juego juego, string pathExe, string pathConfig, sbyte? favorito,
                 string resolucion, string texturas, string filtradoTexturas, string antiAliasing, string modoVentana,
                 string sincronizacionVertical, int? fps, string sombras, string iluminacion, string oclusionAmbiental,
                 string motionBlur, string efectos, int? sonidoGeneral, int? sonidoFx, int? sonidoMusica,
@@ -63,6 +64,7 @@ namespace Gamecher.Objects
             this.juego = juego;
             this.pathExe = pathExe;
             this.pathConfig = pathConfig;
+            this.favorito = favorito;
             this.resolucion = resolucion;
             this.texturas = texturas;
             this.filtradoTexturas = filtradoTexturas;

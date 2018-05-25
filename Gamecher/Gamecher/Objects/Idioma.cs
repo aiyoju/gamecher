@@ -11,7 +11,7 @@ namespace Gamecher.Objects
         public int? idIdioma { get; set; }
         public string siglas { get; set; }
         public string nombre { get; set; }
-        public DateTime fechaModificado { get; set; }
+        public DateTimeOffset fechaModificado { get; set; }
 
         public Idioma()
         {

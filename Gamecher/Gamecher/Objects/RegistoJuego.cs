@@ -13,7 +13,7 @@ namespace Gamecher.Objects
         public Juego juego { get; set; }
         public string trofeosCompledatos { get; set; }
         public sbyte? instalado { get; set; }
-        public DateTime fechaModificado { get; set; }
+        public DateTimeOffset fechaModificado { get; set; }
         public double? horasJugadas { get; set; }
 
         public RegistoJuego()

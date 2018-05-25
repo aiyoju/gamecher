@@ -60,13 +60,13 @@
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1.2*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" RenderOptions.BitmapScalingMode="Fant" Width="20" Height="20">
+                    <Image x:Name="favButton" Grid.Column="0" RenderOptions.BitmapScalingMode="Fant" Width="20" Height="20">
                         <Image.Source>
                             <BitmapImage UriSource="images/star_white.png" />
                         </Image.Source>
                         <Image.Style>
                             <Style TargetType="Image">
-                                <Setter Property="Opacity" Value="0.6"/>
+                                <Setter Property="Opacity" Value="0.3"/>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Opacity" Value="1"/>
@@ -81,8 +81,8 @@
                         </Image.Source>
                     </Image>
                     <Viewbox Grid.Column="3" Margin="3,3,0,3" VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <TextBlock Foreground="White" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center">
-                                        59
+                        <TextBlock x:Name="hoursPlayed" Foreground="White" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center">
+                                        
                         </TextBlock>
                     </Viewbox>
                     <Image Grid.Column="4" RenderOptions.BitmapScalingMode="Fant" Width="20" Height="20" Opacity="0.6">

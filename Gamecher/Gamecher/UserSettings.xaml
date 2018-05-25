@@ -152,7 +152,7 @@
                 </TextBlock>
 
                 <Viewbox Grid.Row="0" Grid.Column="1" Margin="7">
-                    <CheckBox />
+                    <CheckBox x:Name="startWithWindows" />
                 </Viewbox>
 
                 <TextBlock Grid.Row="1" Foreground="#696B6E" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" >
@@ -160,7 +160,7 @@
                 </TextBlock>
 
                 <Viewbox Grid.Row="1" Grid.Column="1" Margin="7">
-                    <CheckBox />
+                    <CheckBox x:Name="autoUpdates"/>
                 </Viewbox>
 
                 <TextBlock Grid.Row="2" Foreground="#696B6E" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" >
@@ -168,7 +168,7 @@
                 </TextBlock>
 
                 <Viewbox Grid.Row="2" Grid.Column="1" Margin="7">
-                    <CheckBox />
+                    <CheckBox x:Name="minimizeOnClose" />
                 </Viewbox>
 
                 <TextBlock Grid.Row="3" Foreground="#696B6E" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" FontSize="22" >
