@@ -79,7 +79,7 @@ namespace Gamecher
             }
 
             //Draws the icon of the notification Windows menu.
-            ni.Icon = new System.Drawing.Icon(System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath, "Gamecher.ico"));
+            ni.Icon = new System.Drawing.Icon(System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath + @"\Data\", "Gamecher.ico"));
             ni.Visible = true;
             ni.DoubleClick +=
                 delegate (object sender, EventArgs args)
