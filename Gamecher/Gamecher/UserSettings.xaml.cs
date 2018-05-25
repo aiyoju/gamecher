@@ -16,6 +16,8 @@ namespace Gamecher
         {
             InitializeComponent();
             theme.Text = "Dark";
+
+            //Checks for the program saved settings on startup, so everything is the same before closing and opening the program.
             Cuenta preferences = (Application.Current.MainWindow as MainWindow).SetPreferencias();
             if (preferences.preferencia.inicioAutomatico == 1) {
                 startWithWindows.IsChecked = true;
@@ -30,6 +32,7 @@ namespace Gamecher
             }
         }
 
+        //Lets the user drag the window by clicking on the topbar
         private void WindowTopBarClicked(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -38,6 +41,7 @@ namespace Gamecher
             }
         }
 
+        //Lets the user close the window by pressig the X.
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.MainWindow.Effect = null;
@@ -45,6 +49,7 @@ namespace Gamecher
             Close();
         }
 
+        //TODO Implement the theme changer, so that colors can be either lighter or darker
         private void ThemeChangerClick(object sender, RoutedEventArgs e)
         {
             if ((sender as System.Windows.Controls.Primitives.ToggleButton).IsChecked.Value)
@@ -57,6 +62,8 @@ namespace Gamecher
             }
         }
 
+
+        //Close the window when cancelling
         private void DeclinePressed(object sender, MouseButtonEventArgs e)
         {
             Application.Current.MainWindow.Effect = null;
@@ -64,6 +71,7 @@ namespace Gamecher
             Close();
         }
 
+        //Executes when the user accepts, saving the variables for the next startup to remain the same.
         private void AcceptPressed(object sender, MouseButtonEventArgs e)
         {
             Cuenta preferences = new Cuenta()

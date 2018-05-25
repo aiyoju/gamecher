@@ -33,8 +33,8 @@ namespace Gamecher
             }
             catch (Exception e)
             {
-                return json.ToString();
                 Console.WriteLine(e.StackTrace);
+                return json.ToString();
             }
 
         }
@@ -64,8 +64,8 @@ namespace Gamecher
             }
             catch (Exception e)
             {
-                return 500 + "";
                 Console.WriteLine(e.StackTrace);
+                return 500 + "";
             }
         }
 
@@ -91,8 +91,8 @@ namespace Gamecher
             }
             catch (Exception e)
             {
-                return json.ToString();
                 Console.WriteLine(e.StackTrace);
+                return json.ToString();                
             }
         }
 

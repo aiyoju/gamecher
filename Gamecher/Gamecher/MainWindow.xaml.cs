@@ -30,10 +30,11 @@ namespace Gamecher
 
     public partial class MainWindow : Window
     {
-
-        public readonly string STEAM_API_KEY = "D297C7CEC2B377B7D4ED0FE086825E28";
+        //public static readonly string STEAM_API_KEY = "D297C7CEC2B377B7D4ED0FE086825E28";
         public WrapPanel WrapPanel { get; set; }
         public StackPanel StackPanel { get; set; }
+
+        //Creates the icon for the program to stay on the notification tray of Windows.
         public System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
 
 
@@ -41,14 +42,18 @@ namespace Gamecher
         {
             InitializeComponent();
 
+            // Initialize the program on startup, setting all the info to its values.
             WrapPanel = wrapMahepanel;
             StackPanel = StackMahePanel;
 
+            // Loads the game stored on disk
             GameAdder gA = new GameAdder();
             gA.SearchForSavedGames();
 
+            // Loads the hours into its positions
             SetHours();
 
+            // Loads the user preferences
             List<Cuenta> defaultUser = new List<Cuenta>();
             string folder = System.IO.Path.GetDirectoryName(@"Data\userConfig\");
             string extension = "*.txt";
@@ -56,13 +61,13 @@ namespace Gamecher
             bool hasFile = false;
             foreach (var file in filesCache)
             {
-                Console.WriteLine(file);
                 if (file.Equals(@"Data\userConfig\preferences.txt"))
                 {
                     hasFile = true;
                     break;
                 }
             }
+            // If user doesn't have preferences, creates ones.
             if (!hasFile)
             {
                 Cuenta preferences = new Cuenta()
@@ -73,7 +78,7 @@ namespace Gamecher
                 File.WriteAllText(@"Data\userConfig\preferences.txt", JsonConvert.SerializeObject(preferences));
             }
 
-
+            //Draws the icon of the notification Windows menu.
             ni.Icon = new System.Drawing.Icon(System.IO.Path.Combine(System.Windows.Forms.Application.StartupPath, "Gamecher.ico"));
             ni.Visible = true;
             ni.DoubleClick +=
@@ -88,9 +93,7 @@ namespace Gamecher
 
         }
 
-        /// <summary>
-        /// TitleBar_MouseDown - Drag if single-click, resize if double-click
-        /// </summary>
+        //Lets the user drag the window by clicking on the topbar, and also maximize it on double click
         private void WindowTopBarClicked(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -105,9 +108,7 @@ namespace Gamecher
 
         }
 
-        /// <summary>
-        /// CloseButton_Clicked
-        /// </summary>
+        //Lets the user close the window by pressig the X.
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Cuenta preferences = SetPreferencias();
@@ -123,25 +124,19 @@ namespace Gamecher
 
         }
 
-        /// <summary>
-        /// MaximizedButton_Clicked
-        /// </summary>
+        //Maximizes the windows when the user clicks the maximize square button
         private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
             AdjustWindowSize();
         }
 
-        /// <summary>
-        /// Minimized Button_Clicked
-        /// </summary>
+        //Minimizes the window to the taskbar when the user clicks on the _ button
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
         }
 
-        /// <summary>
-        /// Adjusts the WindowSize to correct parameters when Maximize button is clicked
-        /// </summary>
+        // Method that allows the user to adjust the size of the window.
         private void AdjustWindowSize()
         {
             if (this.WindowState == WindowState.Maximized)
@@ -158,6 +153,7 @@ namespace Gamecher
 
         }
 
+        //Opens the profile editor (TODO) when the user clicks on the profile image
         private void UserAvatarClick(object sender, MouseButtonEventArgs e)
         {
             this.Opacity = 0.9;
@@ -172,6 +168,7 @@ namespace Gamecher
             userSettings.ShowDialog();
         }
 
+        //Prompts the menu that allows the user to add games, automatically or manually
         private void AddGameClicked(object sender, MouseButtonEventArgs e)
         {
             /*GameCard gC = new GameCard();
@@ -191,6 +188,9 @@ namespace Gamecher
 
         }
 
+        // Loads the hours into its positions
+        // Basically goes through all the games that are 
+        // installed and adds the hours, then sets them.
         public void SetHours()
         {
 
@@ -225,6 +225,9 @@ namespace Gamecher
             });
         }
 
+        // Lets the user filter the games by its categories.
+        // Same as last method, goes thorugh all the files and stores their categories
+        // separating and counting them so it can later update them on the GUI.
         public void FilterGames(string filter)
         {
             List<Configuracion> games = new List<Configuracion>();
@@ -236,7 +239,6 @@ namespace Gamecher
                 string[] filesCache = Directory.GetFiles(folder, extension);
                 foreach (var file in filesCache)
                 {
-                    Console.WriteLine(file);
                     if (!file.Equals(@"Data\SavedGames\ReadMe.txt"))
                     {
                         string[] lines = File.ReadAllLines(file);
@@ -245,7 +247,6 @@ namespace Gamecher
                         {
                             json += line;
                         }
-                        Console.WriteLine(json);
                         gamesCache.Add(JsonConvert.DeserializeObject<Configuracion>(json));
                         gamesCache.ForEach(i => Console.WriteLine(i.juego.nombre));
                     }
@@ -292,6 +293,9 @@ namespace Gamecher
             });
         }
 
+        // Gets the organized categories from the last method and applies those to the UI, updating it.
+        // Generates a Card for each different category and then makes +1 to them until the array is done.
+        // Then inserts the card into the UI.
         public void FilterUI(List<Configuracion> games)
         {
             WrapPanel.Children.Clear();
@@ -299,7 +303,6 @@ namespace Gamecher
             GameAdder gA = new GameAdder();
             foreach (var game in games)
             {
-                Console.WriteLine(JsonConvert.SerializeObject(game));
                 string nombre = game.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
 
                 GameCard gC = new GameCard
@@ -324,6 +327,7 @@ namespace Gamecher
             }
         }
 
+        // Reads the account preferences for using them
         public Cuenta SetPreferencias()
         {
             Cuenta preferences = null;

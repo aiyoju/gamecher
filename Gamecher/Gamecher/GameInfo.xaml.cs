@@ -30,6 +30,7 @@ namespace Gamecher
             if (game.juego.imageUrl != null) ImageOfGameInfo.ImageSource = new BitmapImage(new Uri(game.juego.imageUrl));
         }
 
+        //Close the window when pressing the button
         private void AcceptPressed(object sender, MouseButtonEventArgs e)
         {
             Application.Current.MainWindow.Effect = null;
