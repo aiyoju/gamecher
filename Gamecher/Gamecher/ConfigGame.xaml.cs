@@ -2,11 +2,13 @@
 using SharpConfig;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace Gamecher
 {
@@ -18,20 +20,21 @@ namespace Gamecher
         Configuration config = null;
         List<Setting> arrayOfSettings = null;
         List<TextBox> arrayOfTextBox = null;
-        OpenFileDialog dlg = null;
+        string treatedPath = "";
 
-        public ConfigGame()
+        public ConfigGame(string configPath)
         {
+            //TODO Guardar el path en el juego una vez hecho, y comprobar si esta guardado antes de ejecutar esta lógica.
             this.SizeToContent = SizeToContent.Height;
             InitializeComponent();
-            dlg = new OpenFileDialog { };
-            Nullable<bool> result = dlg.ShowDialog();
-            if (result == true)
-            {
 
-                if (dlg.FileName.EndsWith(".cfg") || dlg.FileName.EndsWith(".ini"))
+            treatedPath = configPath;
+            treatedPath = treatedPath.Replace(@"$main_disk$", Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.System)));
+            treatedPath = treatedPath.Replace(@"$user_name$", Environment.UserName);
+            try{
+                if (treatedPath.EndsWith(".cfg") || treatedPath.EndsWith(".ini"))
                 {
-                    config = Configuration.LoadFromFile(dlg.FileName);
+                    config = Configuration.LoadFromFile(treatedPath);
                     arrayOfSettings = new List<Setting>();
                     arrayOfTextBox = new List<TextBox>();
 
@@ -72,33 +75,34 @@ namespace Gamecher
                                 HorizontalAlignment = HorizontalAlignment.Center
                             };
 
-                            var typeOfConfigParam = GetTypeOfConfigParam(setting);
+                            //TODO In a future, make the appropiate checks, to show the user proper types of values, instead of reading everything as a string.
+                            //var typeOfConfigParam = GetTypeOfConfigParam(setting);
 
-                            if (typeOfConfigParam == "".GetType())
+                            //if (typeOfConfigParam == "".GetType())
+                            //{
+                            var splittedValue = Regex.Split(setting.RawValue, @"""");
+                            foreach (string s in splittedValue)
                             {
-                                var splittedValue = Regex.Split(setting.RawValue, @"""");
-                                foreach(string s in splittedValue)
-                                {
-                                    Console.Write(" "+s);
-                                }
-                                if (splittedValue.Length>1)
-                                {
-                                    valueOfSetting.Text = splittedValue[1];
-                                    Console.WriteLine(">1");
-                                    valueOfSetting.Tag = "hasQuotes";
-                                }
-                                else
-                                {
-                                    valueOfSetting.Text = splittedValue[0];
-                                    Console.WriteLine("<1");
-                                    valueOfSetting.Tag = "hasNoQuotes";
-                                }
+                                Console.Write(" " + s);
+                            }
+                            if (splittedValue.Length > 1)
+                            {
+                                valueOfSetting.Text = splittedValue[1];
+                                Console.WriteLine(">1");
+                                valueOfSetting.Tag = "hasQuotes";
                             }
                             else
                             {
-                                valueOfSetting.Text = setting.GetValue(typeOfConfigParam).ToString();
+                                valueOfSetting.Text = splittedValue[0];
+                                Console.WriteLine("<1");
                                 valueOfSetting.Tag = "hasNoQuotes";
                             }
+                            //}
+                            //else
+                            //{
+                            //    valueOfSetting.Text = setting.GetValue(typeOfConfigParam).ToString();
+                            //    valueOfSetting.Tag = "hasNoQuotes";
+                            //}
                             arrayOfTextBox.Add(valueOfSetting);
 
                             var rightBorder = new Border()
@@ -127,14 +131,26 @@ namespace Gamecher
                     }
 
                 }
-                else if (dlg.FileName.EndsWith(".xml"))
-                {
-
-                }
+                //TODO Also develop compatibility for .xml files.
+                //else if (treatedPath.EndsWith(".xml"))
+                //{
+                //
+                //}
                 else
                 {
-
+                    (Application.Current.MainWindow as MainWindow).Opacity = 0.9;
+                    (Application.Current.MainWindow as MainWindow).Effect = new BlurEffect();
+                    MessageBox.Show("There was an error loading the configuration file.", "", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    (Application.Current.MainWindow as MainWindow).Opacity = 1;
+                    (Application.Current.MainWindow as MainWindow).Effect = null;
                 }
+            }catch
+            {
+                (Application.Current.MainWindow as MainWindow).Opacity = 0.9;
+                (Application.Current.MainWindow as MainWindow).Effect = new BlurEffect();
+                MessageBox.Show("There was an error loading the configuration file.", "", MessageBoxButton.OK, MessageBoxImage.Warning);
+                (Application.Current.MainWindow as MainWindow).Opacity = 1;
+                (Application.Current.MainWindow as MainWindow).Effect = null;
             }
         }
 
@@ -208,13 +224,14 @@ namespace Gamecher
             {
                 if (arrayOfTextBox[i].Tag.Equals("hasQuotes"))
                 {
-                    arrayOfSettings[i].SetValue(@""""+arrayOfTextBox[i].Text+@"""");
-                } else
+                    arrayOfSettings[i].SetValue(@"""" + arrayOfTextBox[i].Text + @"""");
+                }
+                else
                 {
                     arrayOfSettings[i].SetValue(arrayOfTextBox[i].Text.ToString());
                 }
             }
-            config.SaveToFile(dlg.FileName);
+            config.SaveToFile(treatedPath);
 
             Application.Current.MainWindow.Effect = null;
             Application.Current.MainWindow.Opacity = 1;

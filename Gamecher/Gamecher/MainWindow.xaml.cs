@@ -32,8 +32,8 @@ namespace Gamecher
     {
 
         public readonly string STEAM_API_KEY = "D297C7CEC2B377B7D4ED0FE086825E28";
-        public WrapPanel wrapPanel { get; set; }
-        public StackPanel stackPanel { get; set; }
+        public WrapPanel WrapPanel { get; set; }
+        public StackPanel StackPanel { get; set; }
         public System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
 
 
@@ -41,11 +41,11 @@ namespace Gamecher
         {
             InitializeComponent();
 
-            wrapPanel = wrapMahepanel;
-            stackPanel = StackMahePanel;
+            WrapPanel = wrapMahepanel;
+            StackPanel = StackMahePanel;
 
             GameAdder gA = new GameAdder();
-            gA.searchForSavedGames();
+            gA.SearchForSavedGames();
 
             SetHours();
 
@@ -110,7 +110,7 @@ namespace Gamecher
         /// </summary>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Cuenta preferences = setPreferencias();
+            Cuenta preferences = SetPreferencias();
             if (preferences.preferencia.minimizarAlCerrar == 1)
             {
                 this.Hide();
@@ -191,21 +191,8 @@ namespace Gamecher
 
         }
 
-        private void GameSettingsClicked(object sender, MouseButtonEventArgs e)
+        public void SetHours()
         {
-            this.Opacity = 0.9;
-            this.Effect = new BlurEffect();
-
-            var configGame = new ConfigGame()
-            {
-                Owner = this,
-                ShowInTaskbar = false
-            };
-
-            configGame.ShowDialog();
-        }
-
-        public void SetHours() {
 
             double? horas = 0;
             Task t = Task.Factory.StartNew(() =>
@@ -238,7 +225,7 @@ namespace Gamecher
             });
         }
 
-        public void filterGames(string filter)
+        public void FilterGames(string filter)
         {
             List<Configuracion> games = new List<Configuracion>();
             Task t = Task.Factory.StartNew(() =>
@@ -300,14 +287,14 @@ namespace Gamecher
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    filterUI(games);
+                    FilterUI(games);
                 });
             });
         }
 
-        public void filterUI(List<Configuracion> games)
+        public void FilterUI(List<Configuracion> games)
         {
-            wrapPanel.Children.Clear();
+            WrapPanel.Children.Clear();
 
             GameAdder gA = new GameAdder();
             foreach (var game in games)
@@ -315,23 +302,27 @@ namespace Gamecher
                 Console.WriteLine(JsonConvert.SerializeObject(game));
                 string nombre = game.juego.nombre.Replace('\\', '_').Replace('/', '_').Replace(':', '_').Replace('*', '_').Replace('?', '_').Replace('\"', '_').Replace('<', '_').Replace('>', '_').Replace('|', '_').Replace(' ', '_');
 
-                GameCard gC = new GameCard();
-                gC.Tag = nombre;
+                GameCard gC = new GameCard
+                {
+                    Tag = nombre
+                };
                 if (game.favorito == 1)
                 {
-                    gC.favButton.Style = null;
+                    gC.FavButton.Style = null;
                 }
-                gC.favButton.Tag = nombre;
-                gC.favButton.MouseUp += gA.FavGameButton;
+                gC.FavButton.Tag = nombre;
+                gC.PlayButton.MouseUp += gA.PlayButtonPressed;
+                gC.FavButton.MouseUp += gA.FavButtonPressed;
+                gC.SettingsButton.MouseUp += gA.SettingsButtonPressed;
                 gC.ImageGame.ImageSource = new BitmapImage(new Uri(game.juego.imageUrl));
                 gC.GameName.Text = game.juego.nombre;
                 gC.PlayButton.Tag = game.pathExe;
-                gC.PlayButton.MouseUp += gA.LaunchPath;
-                (Application.Current.MainWindow as MainWindow).wrapPanel.Children.Add(gC);
+                gC.SettingsButton.Tag = game.juego.pathConfiguracion;
+                (Application.Current.MainWindow as MainWindow).WrapPanel.Children.Add(gC);
             }
         }
 
-        public Cuenta setPreferencias()
+        public Cuenta SetPreferencias()
         {
             Cuenta preferences = null;
             try
@@ -345,7 +336,7 @@ namespace Gamecher
 
                 preferences = JsonConvert.DeserializeObject<Cuenta>(json);
             }
-            catch (Exception e)
+            catch
             {
             }
             return preferences;

@@ -16,7 +16,7 @@ namespace Gamecher
         {
             InitializeComponent();
             theme.Text = "Dark";
-            Cuenta preferences = (Application.Current.MainWindow as MainWindow).setPreferencias();
+            Cuenta preferences = (Application.Current.MainWindow as MainWindow).SetPreferencias();
             if (preferences.preferencia.inicioAutomatico == 1) {
                 startWithWindows.IsChecked = true;
             }

@@ -230,7 +230,7 @@
                 </TextBlock>
             </Border>
 
-            <Border HorizontalAlignment="Right" VerticalAlignment="Center" Padding="15,10,15,10" Grid.Column="1" Grid.Row="3 " BorderThickness="0,5" Background="#FFF04747" CornerRadius="5" Margin="0,0,120,0" MouseUp="DeclinePressed">
+            <Border HorizontalAlignment="Right" VerticalAlignment="Center" Padding="15,10,15,10" Grid.Column="1" Grid.Row="3 " BorderThickness="0,5" Background="IndianRed" CornerRadius="5" Margin="0,0,120,0" MouseUp="DeclinePressed">
                 <TextBlock Opacity="1" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="24" FontWeight="Bold" Foreground="#FFFFF8F8">
                                         Decline
                 </TextBlock>
