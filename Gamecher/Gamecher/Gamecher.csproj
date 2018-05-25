@@ -107,6 +107,9 @@
     <Compile Include="ButtonFilter.xaml.cs">
       <DependentUpon>ButtonFilter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameInfo.xaml.cs">
+      <DependentUpon>GameInfo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ManualGameConfig.xaml.cs">
       <DependentUpon>ManualGameConfig.xaml</DependentUpon>
     </Compile>
@@ -138,6 +141,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConfigGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GameInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

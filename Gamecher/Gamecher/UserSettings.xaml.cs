@@ -102,7 +102,6 @@ namespace Gamecher
             else { preferences.preferencia.minimizarAlCerrar = 0; }
 
             File.WriteAllText(@"Data\userConfig\preferences.txt", JsonConvert.SerializeObject(preferences));
-            //DoShitHereBeforeClosing
             Application.Current.MainWindow.Effect = null;
             Application.Current.MainWindow.Opacity = 1;
             Close();

@@ -300,6 +300,7 @@ namespace Gamecher
                 gC.PlayButton.MouseUp += PlayButtonPressed;
                 gC.FavButton.MouseUp += FavButtonPressed;
                 gC.SettingsButton.MouseUp += SettingsButtonPressed;
+                gC.GameName.MouseUp += GameNamePressed;
                 gC.ImageGame.ImageSource = new BitmapImage(new Uri(game.juego.imageUrl));
                 gC.GameName.Text = game.juego.nombre;
                 gC.PlayButton.Tag = game.pathExe;
@@ -474,6 +475,20 @@ namespace Gamecher
         public void FavButtonPressed(object sender, MouseButtonEventArgs e)
         {
             FavGame((sender as Image).Tag.ToString());
+        }
+
+        public void GameNamePressed(object sender, MouseButtonEventArgs e)
+        {
+            (Application.Current.MainWindow as MainWindow).Opacity = 0.9;
+            (Application.Current.MainWindow as MainWindow).Effect = new BlurEffect();
+
+            var GameInfo = new GameInfo()
+            {
+                Owner = (Application.Current.MainWindow as MainWindow),
+                ShowInTaskbar = false
+            };
+
+            GameInfo.ShowDialog();
         }
 
         public void UpdateHours(object sender, EventArgs e)

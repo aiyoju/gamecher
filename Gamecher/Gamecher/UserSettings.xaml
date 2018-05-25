@@ -100,7 +100,7 @@
 
                 <Viewbox  Grid.Row="1" Margin="15,0,5,0" HorizontalAlignment="Left">
                     <TextBlock Foreground="#FFFFF8F8" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontSize="22" FontFamily="Calibri Light">
-                                        NombreDeUsuarioDePrueba
+                                        PlaceholderUsername
                     </TextBlock>
                 </Viewbox>
 
@@ -130,7 +130,7 @@
 
                 <Viewbox  Grid.Row="5" Margin="15,0,5,0" HorizontalAlignment="Left">
                     <TextBlock Foreground="#FFFFF8F8" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center" FontSize="22" FontFamily="Calibri Light">
-                                        EmailDePrueba@hotmail.es
+                                        PlaceholderEmail@hotmail.es
                     </TextBlock>
                 </Viewbox>
             </Grid>

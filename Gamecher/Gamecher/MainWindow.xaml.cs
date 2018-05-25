@@ -314,6 +314,7 @@ namespace Gamecher
                 gC.PlayButton.MouseUp += gA.PlayButtonPressed;
                 gC.FavButton.MouseUp += gA.FavButtonPressed;
                 gC.SettingsButton.MouseUp += gA.SettingsButtonPressed;
+                gC.GameName.MouseUp += gA.GameNamePressed;
                 gC.ImageGame.ImageSource = new BitmapImage(new Uri(game.juego.imageUrl));
                 gC.GameName.Text = game.juego.nombre;
                 gC.PlayButton.Tag = game.pathExe;
@@ -341,5 +342,7 @@ namespace Gamecher
             }
             return preferences;
         }
+
+        
     }
 }

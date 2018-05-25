@@ -91,7 +91,7 @@
                     </Image>
                     <Viewbox Grid.Column="5" Margin="0,3,0,3" VerticalAlignment="Center" HorizontalAlignment="Left">
                         <TextBlock Foreground="White" TextWrapping="Wrap" Opacity="1" TextAlignment="Left" VerticalAlignment="Center">
-                                        15
+                                        0
                         </TextBlock>
                     </Viewbox>
                     <Image x:Name="SettingsButton" Grid.Column="6" RenderOptions.BitmapScalingMode="Fant" Width="20" Height="20">
