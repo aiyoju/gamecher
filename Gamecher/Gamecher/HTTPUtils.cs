@@ -8,12 +8,14 @@ namespace Gamecher
 {
     class HTTPUtils
     {
-        
+
 
         public static string HTTPPost(string url, StringContent json)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(url);
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(url)
+            };
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Add an Accept header for JSON format.
@@ -30,8 +32,10 @@ namespace Gamecher
         public static string HTTPGet(string url, string urlParameters)
         {
             string json = "";
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(url);
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(url)
+            };
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Add an Accept header for JSON format.
@@ -49,8 +53,10 @@ namespace Gamecher
 
         public static string HTTPPut(string url, string urlParameters, StringContent json)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(url);
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(url)
+            };
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Add an Accept header for JSON format.
@@ -66,8 +72,10 @@ namespace Gamecher
 
         public static async Task<HttpStatusCode> DeleteProductAsync(string url, string urlParameters)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(url);
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(url)
+            };
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Add an Accept header for JSON format.

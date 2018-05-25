@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -168,7 +169,7 @@ namespace Gamecher
                                         favorito = 0,
                                         cuenta = new Cuenta()
                                     };
-                                    //Por modificar
+                                    //TODO Por modificar
                                     config.cuenta.idCuenta = 1;
                                     config.id.idCuenta = 1;
 
@@ -217,9 +218,9 @@ namespace Gamecher
             }
         }
 
-        public void saveRegister()
+        public void SaveRegister()
         {
-
+            //TODO Method SaveRegister is empty
         }
 
         public void SetGamesUI(List<Configuracion> games)
@@ -229,7 +230,7 @@ namespace Gamecher
 
             int quantityOfButtons = 0;
             int quantityOfFavGames = 0;
-            foreach (ButtonFilter buttonFilter in (Application.Current.MainWindow as MainWindow).stackPanel.Children)
+            foreach (ButtonFilter buttonFilter in (Application.Current.MainWindow as MainWindow).StackPanel.Children)
             {
                 listOfCategories.Add(new CategoryHelper()
                 {
@@ -239,12 +240,12 @@ namespace Gamecher
                 quantityOfButtons++;
 
             }
-            foreach (GameCard gameCard in (Application.Current.MainWindow as MainWindow).wrapPanel.Children)
+            foreach (GameCard gameCard in (Application.Current.MainWindow as MainWindow).WrapPanel.Children)
             {
                 listOfGames.Add(gameCard.GameName.Text);
             }
 
-            if (quantityOfButtons > 0) (Application.Current.MainWindow as MainWindow).stackPanel.Children.Clear();
+            if (quantityOfButtons > 0) (Application.Current.MainWindow as MainWindow).StackPanel.Children.Clear();
 
             var gameList = new List<Configuracion>();
 
@@ -286,28 +287,34 @@ namespace Gamecher
 
                 RegistoJuego registro = JsonConvert.DeserializeObject<RegistoJuego>(jsonCache);
 
-                GameCard gC = new GameCard();
-                gC.Tag = nombre;
+                GameCard gC = new GameCard
+                {
+                    Tag = nombre
+                };
                 if (game.favorito == 1)
                 {
-                    gC.favButton.Style = null;
+                    gC.FavButton.Style = null;
                 }
                 gC.hoursPlayed.Text = registro.horasJugadas.ToString();
-                gC.favButton.Tag = nombre;
-                gC.favButton.MouseUp += FavGameButton;
+                gC.FavButton.Tag = nombre;
+                gC.PlayButton.MouseUp += PlayButtonPressed;
+                gC.FavButton.MouseUp += FavButtonPressed;
+                gC.SettingsButton.MouseUp += SettingsButtonPressed;
                 gC.ImageGame.ImageSource = new BitmapImage(new Uri(game.juego.imageUrl));
                 gC.GameName.Text = game.juego.nombre;
                 gC.PlayButton.Tag = game.pathExe;
-                gC.PlayButton.MouseUp += LaunchPath;
-                (Application.Current.MainWindow as MainWindow).wrapPanel.Children.Add(gC);
+                gC.SettingsButton.Tag = game.juego.pathConfiguracion;
+                (Application.Current.MainWindow as MainWindow).WrapPanel.Children.Add(gC);
 
                 if (game.favorito == 1)
                 {
                     quantityOfFavGames++;
                 }
-                List<string> categories = new List<string>();
-                categories.Add("Favorites");
-                categories.Add("All Games");
+                List<string> categories = new List<string>
+                {
+                    "Favorites",
+                    "All Games"
+                };
 
                 var categoriesCache = Regex.Split(game.juego.genero, @",").ToList<string>();
                 categoriesCache.RemoveAt(categoriesCache.Count - 1);
@@ -360,7 +367,7 @@ namespace Gamecher
                     bFav.GenreGames.Text = category.category;
                     bFav.numberGames.Text = quantityOfFavGames.ToString();
                     bFav.MouseUp += FilterGame;
-                    (Application.Current.MainWindow as MainWindow).stackPanel.Children.Add(bFav);
+                    (Application.Current.MainWindow as MainWindow).StackPanel.Children.Add(bFav);
                 }
                 else
                 {
@@ -368,13 +375,36 @@ namespace Gamecher
                     bF.GenreGames.Text = category.category;
                     bF.numberGames.Text = category.quantity.ToString();
                     bF.MouseUp += FilterGame;
-                    (Application.Current.MainWindow as MainWindow).stackPanel.Children.Add(bF);
+                    (Application.Current.MainWindow as MainWindow).StackPanel.Children.Add(bF);
                 }
             }
 
         }
 
-        public void LaunchPath(object sender, MouseButtonEventArgs e)
+        public void SettingsButtonPressed(object sender, MouseButtonEventArgs e)
+        {
+            (Application.Current.MainWindow as MainWindow).Opacity = 0.9;
+            (Application.Current.MainWindow as MainWindow).Effect = new BlurEffect();
+            if ((sender as Image).Tag != null && !(sender as Image).Tag.ToString().Equals(""))
+            {
+
+                var configGame = new ConfigGame((sender as Image).Tag.ToString())
+                {
+                    Owner = (Application.Current.MainWindow as MainWindow),
+                    ShowInTaskbar = false
+                };
+
+                configGame.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Sorry, this game doesn't have a proper configurable file.", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                (Application.Current.MainWindow as MainWindow).Opacity = 1;
+                (Application.Current.MainWindow as MainWindow).Effect = null;
+            }
+        }
+
+        public void PlayButtonPressed(object sender, MouseButtonEventArgs e)
         {
             string launchPath = (sender as Polygon).Tag.ToString();
             Task t = Task.Factory.StartNew(() =>
@@ -438,10 +468,10 @@ namespace Gamecher
 
         public void FilterGame(object sender, MouseButtonEventArgs e)
         {
-            (Application.Current.MainWindow as MainWindow).filterGames((sender as ButtonFilter).GenreGames.Text);
+            (Application.Current.MainWindow as MainWindow).FilterGames((sender as ButtonFilter).GenreGames.Text);
         }
 
-        public void FavGameButton(object sender, MouseButtonEventArgs e)
+        public void FavButtonPressed(object sender, MouseButtonEventArgs e)
         {
             FavGame((sender as Image).Tag.ToString());
         }
@@ -502,7 +532,7 @@ namespace Gamecher
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {
                     (Application.Current.MainWindow as MainWindow).SetHours();
-                    searchForSavedGames();
+                    SearchForSavedGames();
                 });
             });
 
@@ -540,15 +570,15 @@ namespace Gamecher
             {
                 Application.Current.Dispatcher.Invoke((Action)delegate
                 {
-                    searchForSavedGames();
+                    SearchForSavedGames();
                 });
             });
         }
 
-        public void searchForSavedGames()
+        public void SearchForSavedGames()
         {
-            (Application.Current.MainWindow as MainWindow).wrapPanel.Children.Clear();
-            (Application.Current.MainWindow as MainWindow).stackPanel.Children.Clear();
+            (Application.Current.MainWindow as MainWindow).WrapPanel.Children.Clear();
+            (Application.Current.MainWindow as MainWindow).StackPanel.Children.Clear();
             List<Configuracion> games = new List<Configuracion>();
             Task t = Task.Factory.StartNew(() =>
             {
@@ -1107,12 +1137,14 @@ namespace Gamecher
             Nullable<bool> result = dlg.ShowDialog();
 
 
-            // Get the selected file name and display in a TextBox 
+            // Get the selected file name
             if (result == true)
             {
-                // Open document 
-                string filename = dlg.FileName;
-                Console.WriteLine(filename);
+                new ManualGameConfig(dlg.FileName)
+                {
+                    Owner = (Application.Current.MainWindow as MainWindow),
+                    ShowInTaskbar = false
+                }.ShowDialog();
             }
         }
 
