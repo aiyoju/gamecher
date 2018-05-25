@@ -29,20 +29,24 @@ namespace Gamecher
             InitializeComponent();
         }
 
+        //Search for steam games on every hard disk on the computer
         public void SearchForSteamGames()
         {
+            //Get every drive on the computter
             DriveInfo[] drives = DriveInfo.GetDrives();
             List<string> pathsFound = new List<string>();
             List<string> allAppidFiles = new List<string>();
             List<string> allAppids = new List<string>();
             List<Configuracion> games = new List<Configuracion>();
             int numberOfTask = 0;
+
+            //Search in a drive for games
             foreach (DriveInfo drive in drives)
             {
-
+                //Start a thread
                 Task t = Task.Factory.StartNew(() =>
                 {
-
+                    //Search if the folder steamapps is in the drive
                     DirectoryInfo dir_info = new DirectoryInfo(drive.Name);
                     List<string> dir_list = new List<string>();
                     SearchDirectories(dir_info, dir_list);
@@ -65,6 +69,7 @@ namespace Gamecher
                         }
                     }
 
+                    //If steamapps are in the drive search for acf files
                     foreach (string resultPath in resultPaths)
                     {
                         if (!resultPath.Equals(""))
@@ -79,6 +84,7 @@ namespace Gamecher
                                 appid = Regex.Split(appid, @".acf")[0];
                                 allappidfiles.Add(appid);
 
+                                //having the appid of the game, makes a request to have the description od the game
                                 string json = @"{""app";
                                 var jsonArray = Regex.Split(HTTPUtils.HTTPGet("https://store.steampowered.com/api/appdetails", "?appids=" + appid + "&l=english"), @"""");
                                 for (int j = 2; j < jsonArray.Length; j++)
@@ -88,6 +94,7 @@ namespace Gamecher
 
                                 var steamGame = JsonConvert.DeserializeObject<RootObject>(json);
 
+                                //If the game of the request has a description transform the object of steam into our object and creates the configuration and the register of the game  
                                 if (steamGame.app.success)
                                 {
                                     Plataforma steam = new Plataforma
@@ -210,7 +217,7 @@ namespace Gamecher
                         //pathsFound.ForEach(i => Console.WriteLine(i));
                         //allAppidFiles.ForEach(i => Console.WriteLine(i));
                         Application.Current.Dispatcher.Invoke((Action)delegate
-                        {
+                        {   //exit from the thread and executes the method that refresh the GUI
                             SetGamesUI(games);
                         });
                     }
@@ -223,6 +230,7 @@ namespace Gamecher
             //TODO Method SaveRegister is empty
         }
 
+        //Method that add the games to GUI
         public void SetGamesUI(List<Configuracion> games)
         {
             var listOfCategories = new List<CategoryHelper>();
@@ -249,6 +257,7 @@ namespace Gamecher
 
             var gameList = new List<Configuracion>();
 
+            //search for games to not be repeated
             foreach (Configuracion game in games)
             {
                 int? posOfGame = null;
@@ -270,6 +279,7 @@ namespace Gamecher
 
             }
 
+            //create the games of the gui and places a coinfig file in local storage
             foreach (Configuracion game in gameList)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(game));
@@ -287,6 +297,7 @@ namespace Gamecher
 
                 RegistoJuego registro = JsonConvert.DeserializeObject<RegistoJuego>(jsonCache);
 
+                //create the card of the game in the GUI
                 GameCard gC = new GameCard
                 {
                     Tag = nombre
@@ -312,6 +323,7 @@ namespace Gamecher
                 {
                     quantityOfFavGames++;
                 }
+                //search for categories and make them to not repeat
                 List<string> categories = new List<string>
                 {
                     "Favorites",
@@ -363,7 +375,7 @@ namespace Gamecher
 
                 }
             }
-
+            //Generate the buttons with filters with the list of categories that are not repeated
             foreach (CategoryHelper category in listOfCategories)
             {
                 if (category.category.Equals("Favorites"))
@@ -386,6 +398,7 @@ namespace Gamecher
 
         }
 
+        //Trys to open a config dialog to setup the game
         public void SettingsButtonPressed(object sender, MouseButtonEventArgs e)
         {
             (Application.Current.MainWindow as MainWindow).Opacity = 0.9;
@@ -409,11 +422,13 @@ namespace Gamecher
             }
         }
 
+        //Execute a process of a game and waits for it to finish to make the calendars and hours played
         public void PlayButtonPressed(object sender, MouseButtonEventArgs e)
         {
             string launchPath = (sender as Polygon).Tag.ToString();
             Task t = Task.Factory.StartNew(() =>
             {
+                //search for the config file of the game that is beeing launched
                 string folder = System.IO.Path.GetDirectoryName(@"Data\SavedGames\");
                 string filter = "*.txt";
                 string[] filesCache = Directory.GetFiles(folder, filter);
@@ -451,6 +466,7 @@ namespace Gamecher
 
                             StringContent jsonRegistro = new StringContent(JsonConvert.SerializeObject(horario), Encoding.UTF8, "application/json");
 
+                            //make a request to the api to start a calendar of play
                             HTTPUtils.HTTPPost("http://" + HTTPUtils.IP + ":8080/gamecher/horarios", jsonRegistro);
 
                         }
@@ -460,6 +476,7 @@ namespace Gamecher
                     {
                         Application.Current.Dispatcher.Invoke((Action)delegate
                         {
+                            //execute the process waiting to be closed to be updated
                             Process process = new Process();
                             process.Exited += new EventHandler(UpdateHours);
                             process.StartInfo.FileName = (sender as Polygon).Tag.ToString();
@@ -471,16 +488,19 @@ namespace Gamecher
 
         }
 
+        //cast the method filtergames to filter the game
         public void FilterGame(object sender, MouseButtonEventArgs e)
         {
             (Application.Current.MainWindow as MainWindow).FilterGames((sender as ButtonFilter).GenreGames.Text);
         }
 
+        //cast the method to fav a game
         public void FavButtonPressed(object sender, MouseButtonEventArgs e)
         {
             FavGame((sender as Image).Tag.ToString());
         }
 
+        //Gets the info of the game that has been pressed and make a dialog with all the info of the game
         public void GameNamePressed(object sender, MouseButtonEventArgs e)
         {
             (Application.Current.MainWindow as MainWindow).Opacity = 0.9;
@@ -515,6 +535,7 @@ namespace Gamecher
             });
         }
 
+        //search for saved games to and if the process that has been closed equals the file make a update on the database with the new hours played and then cast the method to refresh the UI
         public void UpdateHours(object sender, EventArgs e)
         {
             List<Configuracion> games = new List<Configuracion>();
@@ -583,6 +604,7 @@ namespace Gamecher
 
         }
 
+        //Read a file of the game making sure that the games is favorite or not and change the result, later post the result on the databases and stores it
         public void FavGame(string tag)
         {
 
@@ -620,6 +642,7 @@ namespace Gamecher
             });
         }
 
+        //search for every game stored on the program and set it into the UI
         public void SearchForSavedGames()
         {
             (Application.Current.MainWindow as MainWindow).WrapPanel.Children.Clear();
@@ -654,6 +677,7 @@ namespace Gamecher
             });
         }
 
+        //search in the registry_key of windows for battlenet games and if there is one, creates the configuration, register, and insert it  into the database
         public void SearchForBattlenetGames()
         {
             List<Configuracion> games = new List<Configuracion>();
@@ -1108,6 +1132,7 @@ namespace Gamecher
             });
         }
 
+        //search for directories and files with the parameters and filters that you give
         public static IEnumerable<string> GetFiles(string path,
                        string searchPatternExpression = "",
                        SearchOption searchOption = SearchOption.TopDirectoryOnly)
@@ -1142,6 +1167,7 @@ namespace Gamecher
             }
         }
 
+        //makes that the window can move when you click the top bar
         private void WindowTopBarClicked(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -1150,6 +1176,7 @@ namespace Gamecher
             }
         }
 
+        //makes that the window can close when you click the close button
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.MainWindow.Effect = null;
@@ -1157,6 +1184,7 @@ namespace Gamecher
             Close();
         }
 
+        //search manually with a dialog the game that you would preffer to add into the GUI
         private void SearchForGamesAuto(object sender, RoutedEventArgs e)
         {
             SearchForBattlenetGames();
